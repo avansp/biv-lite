@@ -3,7 +3,7 @@ BIV
 
 A simple command line tools to load, visualise, and some quick processing of a biventricular model.
 
-### Setup
+### 🚀 Quick Setup
 
 1. Create a new conda environment & activate it.
    ```shell
@@ -21,7 +21,7 @@ A simple command line tools to load, visualise, and some quick processing of a b
 
 *That's it*
 
-### Run the tools
+### ⚡ Run the tools
 
 Always use `--help` from the `main.py` to see how to use the tools:
 ```shell
@@ -38,7 +38,9 @@ For example, there is `load` command:
 
 *and so on....*
 
-### Load a fitted model as a `Mesh` object
+
+<details>
+<summary><b>Load a fitted model as a `Mesh` object</b></summary>
 
 A fitted biventricular model is usually saved as a text file in `x, y, z, Frame` column format.
 These are control points. Note that there is also a column Frame, but usually a model is saved per frame.
@@ -79,7 +81,11 @@ Note that the `model-folder` argument has been set by default to the correct `mo
 You can load a fitted model directly as follows:
 ![](screenshots/load_ex.png)
 
-### A quick plot of points
+</details>
+
+
+<details>
+<summary><b>A quick plot of points</b></summary>
 
 Using plot function `matplotlib.pyplot` we can quickly plot points of the model in 3D view: 
 
@@ -87,6 +93,8 @@ Using plot function `matplotlib.pyplot` we can quickly plot points of the model 
 (biv)  python biv/main.py plot points ../HCMR_Models_Aug22/HCMR_001_0001/HCMR_001_0001_Model_Frame_000.txt
 ```
 ![](screenshots/plot_points.png)
+
+</details>
 
 
 ### Developer notes
