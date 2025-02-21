@@ -3,6 +3,7 @@ import numpy as np
 from mesh_tools import Mesh
 import inspect
 
+
 # get the default model folder
 DEFAULT_MODEL_FOLDER = Path(inspect.getabsfile(inspect.currentframe())).parent / "model"
 

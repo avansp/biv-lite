@@ -7,19 +7,23 @@ A simple command line tools to load, visualise, and some quick processing of a b
 
 1. Create a new conda environment & activate it.
    ```shell
-   conda create --name biv python=3.11
+   $ conda create --name biv python=3.11
    ```
 
    ```shell
-   conda activate biv
+   $ conda activate biv
    ```
 
 1. Install all packages from `requirements.txt`
     ```shell
-    (biv) pip install -r requirements.txt
+    (biv) $ pip install -r requirements.txt
     ```
 
-*That's it*
+1. This tool needs [BiV_Modelling](https://github.kcl.ac.uk/YoungLab/BiV_Modelling) package. Clone & install it.
+   ```shell
+   (biv) $ git clone https://github.kcl.ac.uk/YoungLab/BiV_Modelling.git
+   (biv) $ conda develop -u /path/to/BiV_Modelling/folder
+   ```
 
 ### ⚡ Run the tools
 
