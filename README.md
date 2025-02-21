@@ -7,11 +7,11 @@ This package contains simple command line tools to load, visualise, and some qui
 
 1. Create a new conda environment & activate it.
    ```shell
-   conda create --name biv-me python=3.11
+   conda create --name biv-lite python=3.11
    ```
 
    ```shell
-   conda activate biv-me
+   conda activate biv-lite
    ```
 
 1. Install all packages from `requirements.txt`
