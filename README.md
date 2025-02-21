@@ -1,35 +1,35 @@
-BIV
+Biventricular Lite
 ----
 
-A simple command line tools to load, visualise, and some quick processing of a biventricular model.
+This package contains simple command line tools to load, visualise, and some quick processing of a biventricular model.
 
 ### 🚀 Quick Setup
 
 1. Create a new conda environment & activate it.
    ```shell
-   $ conda create --name biv python=3.11
+   conda create --name biv-me python=3.11
    ```
 
    ```shell
-   $ conda activate biv
+   conda activate biv-me
    ```
 
 1. Install all packages from `requirements.txt`
     ```shell
-    (biv) $ pip install -r requirements.txt
+    pip install -r requirements.txt
     ```
 
 1. This tool needs [BiV_Modelling](https://github.kcl.ac.uk/YoungLab/BiV_Modelling) package. Clone & install it.
    ```shell
-   (biv) $ git clone https://github.kcl.ac.uk/YoungLab/BiV_Modelling.git
-   (biv) $ conda develop -u /path/to/BiV_Modelling/folder
+   git clone https://github.kcl.ac.uk/YoungLab/BiV_Modelling.git
+   conda develop -u /path/to/BiV_Modelling/folder
    ```
 
 ### ⚡ Run the tools
 
 Always use `--help` from the `main.py` to see how to use the tools:
 ```shell
-(biv) python biv/main.py --help
+python src/main.py --help
 ```
 
 If there are sub-commands, you can always call `--help` to show more information about that command
@@ -37,7 +37,7 @@ and what available options are.
 
 For example, there is `load` command:
 ```shell
-(biv) python biv/main.py load --help
+python src/main.py load --help
 ```
 
 *and so on....*
@@ -94,7 +94,7 @@ You can load a fitted model directly as follows:
 Using plot function `matplotlib.pyplot` we can quickly plot points of the model in 3D view: 
 
 ```shell
-(biv)  python biv/main.py plot points ../HCMR_Models_Aug22/HCMR_001_0001/HCMR_001_0001_Model_Frame_000.txt
+python src/main.py plot points ../HCMR_001_0001/HCMR_001_0001_Model_Frame_000.txt
 ```
 ![](screenshots/plot_points.png)
 
