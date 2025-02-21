@@ -19,12 +19,6 @@ This package contains simple command line tools to load, visualise, and some qui
     pip install -r requirements.txt
     ```
 
-1. This tool needs [BiV_Modelling](https://github.kcl.ac.uk/YoungLab/BiV_Modelling) package. Clone & install it.
-   ```shell
-   git clone https://github.kcl.ac.uk/YoungLab/BiV_Modelling.git
-   conda develop -u /path/to/BiV_Modelling/folder
-   ```
-
 ### ⚡ Run the tools
 
 Always use `--help` from the `main.py` to see how to use the tools:
