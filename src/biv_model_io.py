@@ -2,13 +2,14 @@ from pathlib import Path
 import numpy as np
 from mesh_tools import Mesh
 import inspect
+from typing import Dict
 
 
 # get the default model folder
 DEFAULT_MODEL_FOLDER = Path(inspect.getabsfile(inspect.currentframe())).parent / "model"
 
 
-def load_biv_model(model_folder: Path = DEFAULT_MODEL_FOLDER):
+def load_biv_model(model_folder: Path = DEFAULT_MODEL_FOLDER) -> Dict:
     """
     Load a biventricular model
 
@@ -50,7 +51,7 @@ def load_biv_model(model_folder: Path = DEFAULT_MODEL_FOLDER):
     }
 
 
-def load_fitted_model(fitted_file: Path, model_folder: Path = DEFAULT_MODEL_FOLDER, name: str = 'Mesh'):
+def load_fitted_model(fitted_file: Path, model_folder: Path = DEFAULT_MODEL_FOLDER, name: str = 'Mesh') -> Dict:
     """
     Read a fitted model.
 
