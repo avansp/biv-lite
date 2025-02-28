@@ -1,9 +1,10 @@
-typer[all]
-loguru
-scipy
+typer[all]~=0.15.1
+loguru~=0.7.3
+scipy~=1.15.2
 pandas
-numpy
-plotly
+numpy~=2.2.3
+plotly~=5.17.0
 nltk
-matplotlib
+matplotlib~=3.10.0
 plotly==5.17.0
+rich~=13.9.4

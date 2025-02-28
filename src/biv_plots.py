@@ -4,6 +4,8 @@ from pathlib import Path
 from biv_model_io import load_fitted_model
 import plotly.express as px
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+import numpy as np
 
 app = typer.Typer(help="Plot commands")
 
@@ -17,8 +19,10 @@ def plot_points(input_file: Path = typer.Argument(..., help="A fitted model cont
     dm = load_fitted_model(input_file)
     nodes = dm['mesh'].nodes
 
-    fig = px.scatter_3d(x=nodes[:, 0], y=nodes[:, 1], z=nodes[:, 2])
-    fig.show()
+    ax = plt.figure().add_subplot(projection='3d')
+    ax.scatter(nodes[:, 0], nodes[:, 1], nodes[:, 2], s=1)
+
+    plt.show()
 
 
 @app.command(name="mesh")
@@ -28,5 +32,6 @@ def plot_mesh(input_file: Path = typer.Argument(..., help="A fitted model contro
     dm = load_fitted_model(input_file)
     nodes = dm['mesh'].nodes
 
-    fig = go.Figure(data=[go.Mesh3d(x=nodes[:, 0], y=nodes[:, 1], z=nodes[:, 2], opacity=0.5)])
+    fig = go.Figure(data=[go.Mesh3d(x=nodes[:, 0], y=nodes[:, 1], z=nodes[:, 2])])
+    fig.update_traces(marker_size=1)
     fig.show()
