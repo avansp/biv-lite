@@ -1,6 +1,6 @@
 from pathlib import Path
 import numpy as np
-from mesh_tools import Mesh
+from meshing.mesh import Mesh
 import inspect
 from typing import Dict
 

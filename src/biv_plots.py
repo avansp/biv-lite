@@ -1,13 +1,20 @@
 import typer
 from loguru import logger
 from pathlib import Path
-from biv_model_io import load_fitted_model
-import plotly.express as px
-import plotly.graph_objects as go
-import matplotlib.pyplot as plt
+from biv_io import load_fitted_model
+import pyvista as pv
 import numpy as np
 
+
 app = typer.Typer(help="Plot commands")
+
+
+@app.command()
+def pyvista():
+    from pyvista import examples
+
+    dataset = examples.download_lucy()
+    dataset.plot(smooth_shading=True, color='white')
 
 
 @app.command(name="points")
@@ -17,21 +24,19 @@ def plot_points(input_file: Path = typer.Argument(..., help="A fitted model cont
 
     # read the model
     dm = load_fitted_model(input_file)
-    nodes = dm['mesh'].nodes
-
-    ax = plt.figure().add_subplot(projection='3d')
-    ax.scatter(nodes[:, 0], nodes[:, 1], nodes[:, 2], s=1)
-
-    plt.show()
-
+    pd = pv.PolyData(dm["mesh"].nodes)
+    pd.plot(point_size=5, style="points", color="dodgerblue")
 
 @app.command(name="mesh")
 def plot_mesh(input_file: Path = typer.Argument(..., help="A fitted model control points (text file)")):
     """Just to test using plotly"""
     # read the model
     dm = load_fitted_model(input_file)
-    nodes = dm['mesh'].nodes
 
-    fig = go.Figure(data=[go.Mesh3d(x=nodes[:, 0], y=nodes[:, 1], z=nodes[:, 2])])
-    fig.update_traces(marker_size=1)
-    fig.show()
+    # using pyvista format, you have to add number of points for each element
+    faces = np.hstack([np.ones((dm["mesh"].nb_elements, 1)) * 3, dm["mesh"].elements]).astype(np.int32)
+
+    mesh = pv.PolyData(dm["mesh"].nodes, faces)
+    mesh.plot()
+
+

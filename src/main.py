@@ -1,7 +1,7 @@
 import typer
 from pathlib import Path
 from loguru import logger
-from biv_model_io import load_fitted_model, DEFAULT_MODEL_FOLDER
+from biv_io import load_fitted_model, DEFAULT_MODEL_FOLDER
 import rich
 import biv_plots
 
@@ -23,7 +23,7 @@ def load_model(input_model: Path = typer.Argument(..., help="A model txt filenam
     rich.print(f"There are {dm['control_points'].shape[0]} control points")
 
     # print the mesh structure
-    rich.print(f"The mesh structure is:")
+    rich.print(f"After subdivision, here is the mesh structure:")
     model = dm['mesh']
     rich.print({
         'name': model.label,
