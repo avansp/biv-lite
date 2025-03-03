@@ -36,6 +36,7 @@ python src/main.py load --help
 
 *and so on....*
 
+### 🏃 Examples
 
 <details>
 <summary><b>Load a fitted model as a `Mesh` object</b></summary>
@@ -83,14 +84,22 @@ You can load a fitted model directly as follows:
 
 
 <details>
-<summary><b>A quick plot of points</b></summary>
-
-Using plot function `matplotlib.pyplot` we can quickly plot points of the model in 3D view: 
+<summary><b>A quick plot of surface points</b></summary>
 
 ```shell
-python src/main.py plot points ../HCMR_001_0001/HCMR_001_0001_Model_Frame_000.txt
+python src/main.py plot points Model_Frame_000.txt
 ```
 ![](screenshots/plot_points.png)
+
+</details>
+
+<details>
+<summary><b>A quick plot of surface mesh</b></summary>
+
+```shell
+python src/main.py plot mesh Model_Frame_000.txt
+```
+![](screenshots/plot_mesh.png)
 
 </details>
 

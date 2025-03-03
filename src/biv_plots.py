@@ -8,18 +8,9 @@ import numpy as np
 
 app = typer.Typer(help="Plot commands")
 
-
-@app.command()
-def pyvista():
-    from pyvista import examples
-
-    dataset = examples.download_lucy()
-    dataset.plot(smooth_shading=True, color='white')
-
-
 @app.command(name="points")
 def plot_points(input_file: Path = typer.Argument(..., help="A fitted model control points (text file)")):
-    """Quick plot of points in 3D"""
+    """Quick plot of a model as cloud of points"""
     logger.info(f"Input file: {input_file}")
 
     # read the model
@@ -29,7 +20,7 @@ def plot_points(input_file: Path = typer.Argument(..., help="A fitted model cont
 
 @app.command(name="mesh")
 def plot_mesh(input_file: Path = typer.Argument(..., help="A fitted model control points (text file)")):
-    """Just to test using plotly"""
+    """Quick plot of a model as a surface mesh"""
     # read the model
     dm = load_fitted_model(input_file)
 
@@ -38,5 +29,6 @@ def plot_mesh(input_file: Path = typer.Argument(..., help="A fitted model contro
 
     mesh = pv.PolyData(dm["mesh"].nodes, faces)
     mesh.plot()
+
 
 
