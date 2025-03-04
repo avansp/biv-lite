@@ -84,7 +84,7 @@ python src/main.py plot mesh tests/fitted_model.txt
 </details>
 
 
-### Developer notes
+### 👨‍💻 Developer notes
 
 This tool uses `typer` library to create commands and subcommands. It's an amazing library that saves
 your time to build an app. You can read more about Typer here: https://typer.tiangolo.com/

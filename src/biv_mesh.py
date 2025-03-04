@@ -1,15 +1,11 @@
-from pathlib import Path
-import numpy as np
 from meshing.mesh import Mesh
+import numpy as np
 import inspect
+from pathlib import Path
 from typing import Dict
 
 
-# get the default model folder
-DEFAULT_MODEL_FOLDER = Path(inspect.getabsfile(inspect.currentframe())).parent / "model"
-
-
-def load_biv_model(model_folder: Path = DEFAULT_MODEL_FOLDER) -> Dict:
+def load_biv_model(model_folder) -> Dict:
     """
     Load a biventricular model
 
@@ -51,34 +47,31 @@ def load_biv_model(model_folder: Path = DEFAULT_MODEL_FOLDER) -> Dict:
     }
 
 
-def load_fitted_model(fitted_file: Path, model_folder: Path = DEFAULT_MODEL_FOLDER, name: str = 'Mesh') -> Dict:
+class BivMesh(Mesh):
     """
-    Read a fitted model.
-
-    :param fitted_file: a fitted model as a text file
-    :param model_folder: see load_biv_model function
-    :param name: identify the model name
-    :return: a dictionary with the following filed:
-        'control_points': the control points of the model
-        'mesh': a Mesh model that defines the biventricular model (see mesh_tools.mesh.Mesh class)
+    Wrap Mesh class to make it easier to work with as a biventricular model.
     """
-    # read the model
-    biv_model = load_biv_model(model_folder)
+    DEFAULT_MODEL_FOLDER = Path(inspect.getabsfile(inspect.currentframe())).parent / "model"
 
-    # read the control points
-    control_points = np.loadtxt(fitted_file, delimiter=',',skiprows=1, usecols=[0,1,2]).astype(float)
+    def __init__(self,  control_points, name: str = "biv_mesh", model_folder: Path = DEFAULT_MODEL_FOLDER):
+        super().__init__(name)
 
-    # calculate the mesh points
-    vertices = np.dot(biv_model['subdiv'], control_points)
+        self.control_points = control_points
 
-    # create the model
-    model = Mesh(name)
-    model.set_nodes(vertices * 10)
-    model.set_elements(biv_model['faces'])
-    model.set_materials(biv_model['materials'][:, 0], biv_model['materials'][:, 1])
+        # select only necessary variables from the Biventricular template model
+        biv_model = load_biv_model(model_folder)
+        self.subdiv_matrix = biv_model['subdiv']
 
-    return {
-        'control_points': control_points,
-        'mesh': model
-    }
+        # create the model
+        self.set_nodes(np.dot(self.subdiv_matrix, self.control_points))
+        self.set_elements(biv_model['faces'])
+        self.set_materials(biv_model['materials'][:, 0], biv_model['materials'][:, 1])
+
+    @classmethod
+    def from_fitted_model(cls, model_file: str | Path, **kwargs):
+        """Load fitted model and returns BivMesh object."""
+        # read the control points
+        control_points = np.loadtxt(model_file, delimiter=',',skiprows=1, usecols=[0,1,2]).astype(float)
+
+        return BivMesh(control_points, **kwargs)
 
