@@ -3,21 +3,20 @@ Biventricular Lite
 
 This package contains simple command line tools to load, visualise, and some quick processing of a biventricular model.
 
-### 🚀 Quick Setup
+### 🚀 Installation
 
-1. Create a new conda environment & activate it.
-   ```shell
-   conda create --name biv-lite python=3.11
-   ```
+```bash
+# clone project
+git clone https://github.kcl.ac.uk/YoungLab/biv-lite
+cd biv-lite
 
-   ```shell
-   conda activate biv-lite
-   ```
+# create conda environment
+conda create -n biv-lite python=3.11
+conda activate biv-lite
 
-1. Install all packages from `requirements.txt`
-    ```shell
-    pip install -r requirements.txt
-    ```
+# install requirements
+pip install -r requirements.txt
+```
 
 ### ⚡ Run the tools
 
@@ -39,46 +38,27 @@ python src/main.py load --help
 ### 🏃 Examples
 
 <details>
-<summary><b>Load a fitted model as a `Mesh` object</b></summary>
+<summary><b>Load a fitted model as a `Mesh` object and print its structure</b></summary>
 
-A fitted biventricular model is usually saved as a text file in `x, y, z, Frame` column format.
-These are control points. Note that there is also a column Frame, but usually a model is saved per frame.
+There is an example fitted model file in the `tests` folder:
+```bash
+python src/main.py load tests/fitted_model.txt
+```
 
-Example:
+Output:
 ```text
-x,y,z,Frame
-85.77214372028534,-62.79107797414508,-68.03511960551816,0
--5.281445933174165,-23.282425653022695,-18.217445417244353,0
--2.7152790081573337,-19.470939434006784,-18.28185160475911,0
-9.360506273556178,-7.309949321326321,-11.528803933030629,0
-18.440071277109148,-8.542478244200733,-1.4993056208854911,0
+There are 388 control points
+After subdivision, here is the mesh structure:
+{
+    'name': 'Mesh',
+    'number_of_nodes': 5810,
+    'node_basis': 4,
+    'nodes': [(5810, 3), dtype('float64')],
+    'number_of_elements': 11760,
+    'elements': [(11760, 3), dtype('int64')],
+    'materials': [(11760,), dtype('float64')]
+}
 ```
-
-To get the subdivision model, you need to use the `Mesh` class defined in `biv/mesh_tools/mesh.py` file.
-I have made a function to load a fitted model and return both the control point and the model as a `Mesh`.
-See the definition of the `Mesh` class in `biv_model_io.py` file.
-
-```python
-def load_fitted_model(fitted_file: Path, model_folder: Path, name: str = 'Mesh'):
-    """
-    Read a fitted model.
-
-    :param fitted_file: a fitted model as a text file
-    :param model_folder: see load_biv_model function
-    :param name: identify the model name
-    :return: a dictionary with the following filed:
-        'control_points': the control points of the model
-        'mesh': a Mesh model that defines the biventricular model (see mesh_tools.mesh.Mesh class)
-    """
-```
-Note that you need to give a model folder that defines the subdivision matrices, i.e., the `model` folder.
-
-I have created a CLI tool to load a fitted model and print the `Mesh` object structure:
-![](screenshots/load_help.png)
-
-Note that the `model-folder` argument has been set by default to the correct `model` folder.
-You can load a fitted model directly as follows:
-![](screenshots/load_ex.png)
 
 </details>
 
@@ -87,7 +67,7 @@ You can load a fitted model directly as follows:
 <summary><b>A quick plot of surface points</b></summary>
 
 ```shell
-python src/main.py plot points Model_Frame_000.txt
+python src/main.py plot points tests/fitted_model.txt
 ```
 ![](screenshots/plot_points.png)
 
@@ -97,7 +77,7 @@ python src/main.py plot points Model_Frame_000.txt
 <summary><b>A quick plot of surface mesh</b></summary>
 
 ```shell
-python src/main.py plot mesh Model_Frame_000.txt
+python src/main.py plot mesh tests/fitted_model.txt
 ```
 ![](screenshots/plot_mesh.png)
 
