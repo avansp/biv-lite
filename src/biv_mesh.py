@@ -2,7 +2,8 @@ from meshing.mesh import Mesh
 import numpy as np
 import inspect
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Tuple
+from enum import IntEnum
 
 
 def load_biv_model(model_folder) -> Dict:
@@ -47,6 +48,24 @@ def load_biv_model(model_folder) -> Dict:
     }
 
 
+# component list
+class Components(IntEnum):
+    AORTA_VALVE = 0
+    AORTA_VALVE_CUT = 1
+    LV_ENDOCARDIAL = 2
+    LV_EPICARDIAL = 3
+    MITRAL_VALVE = 4
+    MITRAL_VALVE_CUT = 5
+    PULMONARY_VALVE = 6
+    PULMONARY_VALVE_CUT = 7
+    RV_EPICARDIAL = 8
+    RV_FREEWALL = 9
+    RV_SEPTUM = 10
+    TRICUSPID_VALVE = 11
+    TRICUSPID_VALVE_CUT = 12
+    THRU_WALL = 13
+
+
 class BivMesh(Mesh):
     """
     Wrap Mesh class to make it easier to work with as a biventricular model.
@@ -75,3 +94,33 @@ class BivMesh(Mesh):
 
         return BivMesh(control_points, **kwargs)
 
+    def lv_endo(self, open_valve = True) -> Mesh:
+        """Return the LV endocardial mesh"""
+        lv_comps = [Components.LV_ENDOCARDIAL]
+        if not open_valve:
+            lv_comps +=  [Components.AORTA_VALVE, Components.MITRAL_VALVE]
+
+        return self.get_mesh_component(lv_comps,reindex_nodes=False)
+
+    def rv_endo(self, open_valve = True) -> Mesh:
+        """Return the RV endocardial mesh"""
+        rv_comps = [Components.RV_FREEWALL, Components.RV_SEPTUM]
+        if not open_valve:
+            rv_comps += [Components.PULMONARY_VALVE, Components.TRICUSPID_VALVE]
+
+        return self.get_mesh_component(rv_comps, reindex_nodes=False)
+
+    def lvrv_epi(self, open_valve = True) -> Mesh:
+        """Return the LV-RV epicardial mesh"""
+        comps = [Components.LV_EPICARDIAL, Components.RV_EPICARDIAL]
+        if not open_valve:
+            comps += [Components.AORTA_VALVE, Components.AORTA_VALVE_CUT,
+                      Components.MITRAL_VALVE, Components.MITRAL_VALVE_CUT,
+                      Components.PULMONARY_VALVE, Components.PULMONARY_VALVE_CUT,
+                      Components.TRICUSPID_VALVE, Components.TRICUSPID_VALVE_CUT]
+
+        return self.get_mesh_component(comps, reindex_nodes=False)
+
+    def volumes(self):
+        """Returns volumes (ml) for all meshes in the model"""
+        pass

@@ -8,6 +8,10 @@ from biv_mesh import BivMesh
 
 app = typer.Typer(help="Plot commands")
 
+# using pyvista format, you have to add number of points for each element
+def to_pyvista_faces(elements: np.ndarray) -> np.ndarray:
+    return np.hstack([np.ones((elements.shape[0], 1)) * 3, elements]).astype(np.int32)
+
 @app.command(name="points")
 def plot_points(input_file: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False,
                                                   help="A fitted model control points (text file)")):
@@ -25,12 +29,26 @@ def plot_mesh(input_file: Path = typer.Argument(..., exists=True, file_okay=True
     """Quick plot of a model as a surface mesh"""
     # read the model
     biv = BivMesh.from_fitted_model(input_file)
-
-    # using pyvista format, you have to add number of points for each element
-    faces = np.hstack([np.ones((biv.nb_elements, 1)) * 3, biv.elements]).astype(np.int32)
-
-    mesh = pv.PolyData(biv.nodes, faces)
+    mesh = pv.PolyData(biv.nodes, to_pyvista_faces(biv.elements))
     mesh.plot()
 
 
+@app.command(name="biv")
+def plot_biv(input_file: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False,
+                                                help="A fitted model control points (text file)")):
+    """Plot a complete biventricular model"""
+    # read the model
+    biv = BivMesh.from_fitted_model(input_file)
 
+    pl = pv.Plotter()
+
+    lv = biv.lv_endo()
+    pl.add_mesh(pv.PolyData(lv.nodes, to_pyvista_faces(lv.elements)), color="firebrick", opacity="linear", line_width=True)
+
+    rv = biv.rv_endo()
+    pl.add_mesh(pv.PolyData(rv.nodes, to_pyvista_faces(rv.elements)), color="dodgerblue", opacity="linear", line_width=True)
+
+    epi = biv.lvrv_epi()
+    pl.add_mesh(pv.PolyData(epi.nodes, to_pyvista_faces(epi.elements)), color="green", opacity=0.6, line_width=True)
+
+    pl.show()

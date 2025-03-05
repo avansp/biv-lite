@@ -83,6 +83,15 @@ python src/main.py plot mesh tests/fitted_model.txt
 
 </details>
 
+<details>
+<summary><b>A quick plot of the LV & RV meshes</b></summary>
+
+```shell
+python src/main.py plot biv tests/fitted_model.txt
+```
+![](screenshots/plot_biv.png)
+
+</details>
 
 ### 👨‍💻 Developer notes
 
