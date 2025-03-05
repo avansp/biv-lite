@@ -1,7 +1,12 @@
 Biventricular Lite
 ----
 
+| Center-aligned | Center-aligned | Center-aligned |
+
 This package contains simple command line tools to load, visualise, and some quick processing of a biventricular model.
+
+Note: there is no fitting functionality in this package. The input is a fitting model, where there are
+388 control points in 3D format. An example of a fitted model is given in `tests/fitted_model.txt`.
 
 ### 🚀 Installation
 
