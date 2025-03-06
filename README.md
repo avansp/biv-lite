@@ -100,6 +100,27 @@ python src/main.py plot biv tests/fitted_model.txt
 
 </details>
 
+<details>
+<summary><b>Volume and mass calculation</b></summary>
+
+```shell
+python src/main.py volumes tests/fitted_model.txt
+```
+
+```text
+2025-03-06 19:33:39.918 | INFO     | biv_measures:compute_volume:22 - Computing volumes and masses of tests/fitted_model.txt
+{
+    'lv_vol': 253.280039260176,
+    'rv_vol': 260.47160066078743,
+    'lv_epi_vol': 469.0292227955365,
+    'rv_epi_vol': 324.1358505950869,
+    'lv_mass': 226.53664271212853,
+    'rv_mass': 66.84746243101442
+}
+```
+
+</details>
+
 ### 👨‍💻 Developer notes
 
 This tool uses `typer` library to create commands and subcommands. It's an amazing library that saves
