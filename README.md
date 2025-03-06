@@ -1,6 +1,10 @@
 Biventricular Lite
 ----
 
+<p align="center">
+<img height="300" src="screenshots/biv_banner.png">
+</p>
+
 This package contains simple command line tools to load, visualise, and some quick processing of a biventricular model.
 
 Note: there is no fitting functionality in this package. The input is a fitting model, where there are
