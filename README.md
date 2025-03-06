@@ -121,6 +121,10 @@ python src/main.py volumes tests/fitted_model.txt
 
 </details>
 
+### 🏃🏃 More Examples
+
+Have a look into some notes in the [notebooks](notebooks) folder.
+
 ### 👨‍💻 Developer notes
 
 This tool uses `typer` library to create commands and subcommands. It's an amazing library that saves
