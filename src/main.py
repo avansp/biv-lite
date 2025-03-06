@@ -2,12 +2,14 @@ import typer
 from pathlib import Path
 from loguru import logger
 from biv_mesh import BivMesh
+import biv_measures
 import rich
 import biv_plots
 
 app = typer.Typer(add_completion=False,
                   help="Simple tools to load, visualise, and temporal filter biventricular models.")
 app.add_typer(biv_plots.app, name="plot")
+app.add_typer(biv_measures.app)
 
 
 @app.command(name="load")

@@ -48,7 +48,7 @@ def plot_biv(input_file: Path = typer.Argument(..., exists=True, file_okay=True,
     rv = biv.rv_endo()
     pl.add_mesh(pv.PolyData(rv.nodes, to_pyvista_faces(rv.elements)), color="dodgerblue", opacity="linear", line_width=True)
 
-    epi = biv.lvrv_epi()
+    epi = biv.rvlv_epi()
     pl.add_mesh(pv.PolyData(epi.nodes, to_pyvista_faces(epi.elements)), color="green", opacity=0.6, line_width=True)
 
     pl.show()

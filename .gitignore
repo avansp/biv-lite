@@ -210,3 +210,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# anything marked by nogit
+nogit*
