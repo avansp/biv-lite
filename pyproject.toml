@@ -1,0 +1,20 @@
+[project]
+name = "biv-lite"
+version = "0.1.0"
+description = "Manipulation & visualisation of a fitted biventricular model."
+authors = [
+    {name="Avan Suinesiaputra", email="k2145129@kcl.ac.uk"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+
+[project.urls]
+Homepage = "https://github.kcl.ac.uk/YoungLab/biv-lite"
+Issues = "https://github.kcl.ac.uk/YoungLab/biv-lite/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+biv-lite = "biv_lite.main:app"

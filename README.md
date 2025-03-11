@@ -23,13 +23,21 @@ conda activate biv-lite
 
 # install requirements
 pip install -r requirements.txt
+
+# install the tool
+pip install --editable .
 ```
 
 ### ⚡ Run the tools
 
 Always use `--help` from the `main.py` to see how to use the tools:
 ```shell
-python src/main.py --help
+python src/biv_lite/main.py --help
+```
+
+or use directly `biv-lite` command:
+```shell
+biv-lite --help
 ```
 
 If there are sub-commands, you can always call `--help` to show more information about that command
@@ -37,7 +45,7 @@ and what available options are.
 
 For example, there is `load` command:
 ```shell
-python src/main.py load --help
+biv-lite load --help
 ```
 
 *and so on....*
@@ -49,7 +57,7 @@ python src/main.py load --help
 
 There is an example fitted model file in the `tests` folder:
 ```bash
-python src/main.py load tests/fitted_model.txt
+biv-lite load tests/fitted_model.txt
 ```
 
 Output:
@@ -74,7 +82,7 @@ After subdivision, here is the mesh structure:
 <summary><b>A quick plot of surface points</b></summary>
 
 ```shell
-python src/main.py plot points tests/fitted_model.txt
+biv-lite plot points tests/fitted_model.txt
 ```
 ![](screenshots/plot_points.png)
 
@@ -84,7 +92,7 @@ python src/main.py plot points tests/fitted_model.txt
 <summary><b>A quick plot of surface mesh</b></summary>
 
 ```shell
-python src/main.py plot mesh tests/fitted_model.txt
+biv-lite plot mesh tests/fitted_model.txt
 ```
 ![](screenshots/plot_mesh.png)
 
@@ -94,7 +102,7 @@ python src/main.py plot mesh tests/fitted_model.txt
 <summary><b>A quick plot of the LV & RV meshes</b></summary>
 
 ```shell
-python src/main.py plot biv tests/fitted_model.txt
+biv-lite plot biv tests/fitted_model.txt
 ```
 ![](screenshots/plot_biv.png)
 
@@ -104,7 +112,7 @@ python src/main.py plot biv tests/fitted_model.txt
 <summary><b>Volume and mass calculation</b></summary>
 
 ```shell
-python src/main.py volumes tests/fitted_model.txt
+biv-lite volumes tests/fitted_model.txt
 ```
 
 ```text

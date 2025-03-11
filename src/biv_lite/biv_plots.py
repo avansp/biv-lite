@@ -3,7 +3,7 @@ from loguru import logger
 from pathlib import Path
 import pyvista as pv
 import numpy as np
-from biv_mesh import BivMesh
+from biv_lite.biv_mesh import BivMesh
 
 
 app = typer.Typer(help="Plot commands")
@@ -32,7 +32,6 @@ def plot_mesh(input_file: Path = typer.Argument(..., exists=True, file_okay=True
     mesh = pv.PolyData(biv.nodes, to_pyvista_faces(biv.elements))
     mesh.plot()
 
-
 @app.command(name="biv")
 def plot_biv(input_file: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False,
                                                 help="A fitted model control points (text file)")):
@@ -52,3 +51,10 @@ def plot_biv(input_file: Path = typer.Argument(..., exists=True, file_okay=True,
     pl.add_mesh(pv.PolyData(epi.nodes, to_pyvista_faces(epi.elements)), color="green", opacity=0.6, line_width=True)
 
     pl.show()
+
+@app.command(name="motion")
+def plot_motion(input_folder: Path = typer.Argument(..., exists=True, file_okay=False, dir_okay=True,
+                                                    help="A fitted model folder")):
+    """Plot a full cardiac motion."""
+    pass
+

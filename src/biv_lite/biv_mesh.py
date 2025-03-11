@@ -1,10 +1,10 @@
-from meshing.mesh import Mesh
+from biv_lite.meshing.mesh import Mesh
 import numpy as np
 import inspect
 from pathlib import Path
 from enum import IntEnum
 import scipy
-from utils import flip_elements
+from biv_lite.utils import flip_elements
 
 
 # component list

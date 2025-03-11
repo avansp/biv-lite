@@ -1,7 +1,7 @@
 import typer
 from loguru import logger
 from pathlib import Path
-from biv_mesh import BivMesh
+from biv_lite.biv_mesh import BivMesh
 import rich
 from typing import Dict
 
