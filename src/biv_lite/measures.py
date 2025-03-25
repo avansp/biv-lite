@@ -44,3 +44,12 @@ def compute_volume(
         rich.print(vol_mass)
 
     return vol_mass
+
+@app.command(name="strains")
+def compute_strain():
+    """
+    Compute and print myocardial strains
+
+    Source: biv-me compute_global_longitudinal_strain.py file.
+    """
+

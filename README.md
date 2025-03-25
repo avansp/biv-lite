@@ -7,8 +7,7 @@ Biventricular Lite
 
 This package contains simple command line tools to load, visualise, and some quick processing of a biventricular model.
 
-Note: there is no fitting functionality in this package. The input is a fitting model, where there are
-388 control points in 3D format. An example of a fitted model is given in `tests/fitted_model.txt`.
+Note: there is no fitting functionality in this package. The input is a fitting model, where there are 388 control points in 3D format. An example of a fitted model is given in `tests/fitted_model.txt`.
 
 ### 🚀 Installation
 
@@ -28,29 +27,43 @@ pip install -r requirements.txt
 pip install --editable .
 ```
 
-### ⚡ Run the tools
+### 🫀 Using the `BivMesh` class
 
-Always use `--help` from the `main.py` to see how to use the tools:
+The `BivMesh` is the main class for the biventricular modelling and it only accepts a fitted model, which consists of 388 control points. An example of a fitted model is given in [tests/fitted_model.txt](tests/fitted_model.txt) file.
+
+#### Load a fitted model and print some of its properties
+```python
+from biv_lite import BivMesh
+
+biv = BivMesh.from_fitted_model("tests/fitted_model.txt")
+print(biv)
+```
+
+will output
+```text
+<BivMesh> object
+  Label: biv_mesh
+  Control points: (388, 3), dtype: float64
+  Vertices: (5810, 3), dtype: float64
+  Faces: (11920, 3), dtype: int64
+  Components: AORTA_VALVE, AORTA_VALVE_CUT, LV_ENDOCARDIAL, LV_EPICARDIAL, MITRAL_VALVE, MITRAL_VALVE_CUT, PULMONARY_VALVE, PULMONARY_VALVE_CUT, RV_EPICARDIAL, RV_FREEWALL, RV_SEPTUM, THRU_WALL, TRICUSPID_VALVE, TRICUSPID_VALVE_CUT
+```
+
+More examples and explanations are given in the [notebooks folder](notebooks).
+
+### 🏃🏽 CLI tools
+
+There are some tools that you can call directly from the command-line interface, either using `main.py` file:
 ```shell
 python src/biv_lite/main.py --help
 ```
 
-or use directly `biv-lite` command:
+or `biv-lite` command:
 ```shell
 biv-lite --help
 ```
 
-If there are sub-commands, you can always call `--help` to show more information about that command
-and what available options are.
-
-For example, there is `load` command:
-```shell
-biv-lite load --help
-```
-
-*and so on....*
-
-### 🏃 Examples
+Some CLI examples
 
 <details>
 <summary><b>Load a fitted model as a `Mesh` object and print its structure</b></summary>
@@ -129,11 +142,7 @@ biv-lite volumes tests/fitted_model.txt
 
 </details>
 
-### 🏃🏃 More Examples
-
-Have a look into some notes in the [notebooks](notebooks) folder.
-
-### 👨‍💻 Developer notes
+### 🕹️ Developer notes
 
 This tool uses `typer` library to create commands and subcommands. It's an amazing library that saves
 your time to build an app. You can read more about Typer here: https://typer.tiangolo.com/

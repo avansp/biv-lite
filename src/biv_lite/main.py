@@ -3,8 +3,8 @@ from pathlib import Path
 from loguru import logger
 from biv_lite.biv_mesh import BivMesh
 import rich
-import biv_lite.biv_measures as bm
-import biv_lite.biv_plots as bp
+import biv_lite.measures as bm
+import biv_lite.plots as bp
 
 app = typer.Typer(add_completion=False,
                   help="Simple tools to load, visualise, and temporal filter biventricular models.")
