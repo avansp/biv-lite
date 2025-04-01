@@ -1,12 +1,16 @@
 [project]
 name = "biv-lite"
-version = "0.1.1"
+version = "0.2.0"
 description = "Manipulation & visualisation of a fitted biventricular model."
 authors = [
     {name="Avan Suinesiaputra", email="k2145129@kcl.ac.uk"}
 ]
 readme = "README.md"
 requires-python = ">=3.11"
+dependencies = [
+    "scipy",
+    "numpy"
+]
 
 [project.urls]
 Homepage = "https://github.kcl.ac.uk/YoungLab/biv-lite"

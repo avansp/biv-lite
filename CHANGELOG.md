@@ -10,12 +10,14 @@
 * Added volumes and mass calculation.
 * Provided notebooks to plot different ways.
 
-## v0.1.1 (24/03/2025)
+## v0.2.0 (24/03/2025)
 
 ### Features
-* Created `BivFrames` class that handles reading multiple frames of fitted models, and all processing for full cardiac cycle.
-* Added strain calculations.
+* Created `BivFrames` class which is a list of `BivMesh` with some extra props & methods.
+* Added UI app
 
 ### Refactoring
 * `biv_plots.py` -> `plots.py`
 * `biv_measures.py` -> `measures.py`
+* Plot a complete biv mesh is now written in `vis.py` file
+* `to_pyvista_faces` function is inside `utils.py` file

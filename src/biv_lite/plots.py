@@ -2,15 +2,12 @@ import typer
 from loguru import logger
 from pathlib import Path
 import pyvista as pv
-import numpy as np
 from biv_lite.biv_mesh import BivMesh
+from biv_lite.utils import to_pyvista_faces
+from biv_lite.vis import plot_biv_mesh
 
 
 app = typer.Typer(help="Plot commands")
-
-# using pyvista format, you have to add number of points for each element
-def to_pyvista_faces(elements: np.ndarray) -> np.ndarray:
-    return np.hstack([np.ones((elements.shape[0], 1)) * 3, elements]).astype(np.int32)
 
 @app.command(name="points")
 def plot_points(input_file: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False,
@@ -38,23 +35,6 @@ def plot_biv(input_file: Path = typer.Argument(..., exists=True, file_okay=True,
     """Plot a complete biventricular model"""
     # read the model
     biv = BivMesh.from_fitted_model(input_file)
-
     pl = pv.Plotter()
-
-    lv = biv.lv_endo()
-    pl.add_mesh(pv.PolyData(lv.nodes, to_pyvista_faces(lv.elements)), color="firebrick", opacity="linear", line_width=True)
-
-    rv = biv.rv_endo()
-    pl.add_mesh(pv.PolyData(rv.nodes, to_pyvista_faces(rv.elements)), color="dodgerblue", opacity="linear", line_width=True)
-
-    epi = biv.rvlv_epi()
-    pl.add_mesh(pv.PolyData(epi.nodes, to_pyvista_faces(epi.elements)), color="green", opacity=0.6, line_width=True)
-
+    plot_biv_mesh(biv, pl)
     pl.show()
-
-@app.command(name="motion")
-def plot_motion(input_folder: Path = typer.Argument(..., exists=True, file_okay=False, dir_okay=True,
-                                                    help="A fitted model folder")):
-    """Plot a full cardiac motion."""
-    pass
-

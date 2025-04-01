@@ -5,11 +5,13 @@ from biv_lite.biv_mesh import BivMesh
 import rich
 import biv_lite.measures as bm
 import biv_lite.plots as bp
+import biv_lite.ui as ui
 
 app = typer.Typer(add_completion=False,
                   help="Simple tools to load, visualise, and temporal filter biventricular models.")
 app.add_typer(bp.app, name="plot")
 app.add_typer(bm.app)
+app.add_typer(ui.app)
 
 
 @app.command(name="load")
