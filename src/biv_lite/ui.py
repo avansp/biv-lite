@@ -59,16 +59,18 @@ def ui_biv_frames(input_path: Path):
     ui.plotter.show()
 
 class BivMotionUI:
-    def __init__(self, biv_frames: BivFrames):
+    def __init__(self, biv_frames: BivFrames, show_slider: bool = True):
         self.biv_frames = biv_frames
         self.plotter = pv.Plotter()
 
         self.current_frame = 0
         self.actors = plot_biv_mesh(self.biv_frames[self.current_frame], self.plotter)
-        self.plotter.add_slider_widget(self.replace_mesh_callback, [0, len(self.biv_frames) - 1],
-                                       value=self.current_frame, title="Frame",
-                                       fmt="%.0f")
+
+        if show_slider:
+            self.slider = self.plotter.add_slider_widget(self.replace_mesh_callback, [0, len(self.biv_frames) - 1],
+                                                         value=self.current_frame, title="Frame", fmt="%.0f")
         self.add_toggle_visibility_widgets()
+
 
     def add_toggle_visibility_widgets(self):
         size = 20
