@@ -15,9 +15,11 @@
 ### Features
 * Created `BivFrames` class which is a list of `BivMesh` with some extra props & methods.
 * Added UI app
+* Added interpolation function for BivFrames
 
 ### Refactoring
 * `biv_plots.py` -> `plots.py`
 * `biv_measures.py` -> `measures.py`
 * Plot a complete biv mesh is now written in `vis.py` file
 * `to_pyvista_faces` function is inside `utils.py` file
+* All typer app's are in `app` subfolder, except for `main.py`

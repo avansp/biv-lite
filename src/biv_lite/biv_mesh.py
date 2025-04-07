@@ -4,7 +4,7 @@ import inspect
 from pathlib import Path
 from enum import IntEnum
 import scipy
-from biv_lite.utils import flip_elements
+from biv_lite.meshing.utils import flip_elements
 
 
 # component list

@@ -2,9 +2,8 @@ import typer
 from pathlib import Path
 import pyvista as pv
 from biv_lite.biv_mesh import BivMesh
-from biv_lite.vis import plot_biv_mesh
+from biv_lite.app.vis import plot_biv_mesh, to_pyvista_faces
 from biv_lite.biv_frames import BivFrames
-from biv_lite.utils import to_pyvista_faces
 
 app = typer.Typer(help="User interactive biv-lite application")
 

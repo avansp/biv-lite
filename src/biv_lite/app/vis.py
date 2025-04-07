@@ -1,6 +1,11 @@
 from biv_lite import BivMesh, Components
-from biv_lite.utils import to_pyvista_faces
 import pyvista as pv
+import numpy as np
+
+
+# using pyvista format, you have to add number of points for each element
+def to_pyvista_faces(elements: np.ndarray) -> np.ndarray:
+    return np.hstack([np.ones((elements.shape[0], 1)) * 3, elements]).astype(np.int32)
 
 
 def plot_biv_mesh(biv: BivMesh, pl: pv.Plotter):
@@ -19,3 +24,4 @@ def plot_biv_mesh(biv: BivMesh, pl: pv.Plotter):
         'RV': rv_actor,
         'EPI': epi_actor
     }
+
