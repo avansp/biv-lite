@@ -25,3 +25,19 @@ def plot_biv_mesh(biv: BivMesh, pl: pv.Plotter):
         'EPI': epi_actor
     }
 
+def replace_mesh(actor, biv):
+    """Replacing biventricular mesh min the visualisation"""
+    # replace LV
+    lv = biv.lv_endo()
+    mesh = pv.PolyData(lv.nodes, to_pyvista_faces(lv.elements))
+    actor['LV'].mapper.dataset.copy_from(mesh)
+
+    # replace RV
+    rv = biv.rv_endo()
+    mesh = pv.PolyData(rv.nodes, to_pyvista_faces(rv.elements))
+    actor['RV'].mapper.dataset.copy_from(mesh)
+
+    # replace EPI
+    epi = biv.rvlv_epi()
+    mesh = pv.PolyData(epi.nodes, to_pyvista_faces(epi.elements))
+    actor['EPI'].mapper.dataset.copy_from(mesh)

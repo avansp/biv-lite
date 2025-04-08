@@ -9,7 +9,7 @@ This package contains simple command line tools to load, visualise, and some qui
 
 Note: there is no fitting functionality in this package. The input is a fitting model, where there are 388 control points in 3D format. An example of a fitted model is given in `tests/fitted_model.txt`.
 
-### 🚀 Installation
+## 🚀 Installation
 
 ```bash
 # clone project
@@ -27,11 +27,11 @@ pip install -r requirements.txt
 pip install --editable .
 ```
 
-### 🫀 Using the `BivMesh` class
+## 🫀 Using the `BivMesh` class
 
 The `BivMesh` is the main class for the biventricular modelling and it only accepts a fitted model, which consists of 388 control points. An example of a fitted model is given in [tests/fitted_model.txt](tests/fitted_model.txt) file.
 
-#### Load a fitted model and print some of its properties
+### Load a fitted model and print some of its properties
 ```python
 from biv_lite import BivMesh
 
@@ -51,7 +51,7 @@ will output
 
 More examples and explanations are given in the [notebooks folder](notebooks).
 
-### 🏃🏽 CLI tools
+## 🏃🏽 CLI tools
 
 There are some tools that you can call directly from the command-line interface, either using `main.py` file:
 ```shell
@@ -142,7 +142,87 @@ biv-lite volumes tests/fitted_model.txt
 
 </details>
 
-### 🕹️ Developer notes
+## 🦍 Super-charged classes
+
+### `BivFrames`
+
+The `BivFrames` class contains a list of `BivMesh` objects and can provide a convenient class to handle a full frame cardiac models.
+
+`BivFrames` reads a folder that contains fitted model files
+, and sort the frame numbers based on the filenames. There is an example of biventricular frames provided in `tests/sample_frames`.
+
+```python
+from biv_lite import BivFrames
+
+bivs = BivFrames.from_folder(r'tests/sample_frames/')
+len(bivs)
+```
+
+Output:
+```text
+25
+```
+
+You can also compute volumes and other measurements.
+```python
+import matplotlib.pyplot as plt
+from biv_lite import BivFrames
+
+bivs = BivFrames.from_folder(r'tests/sample_frames/')
+vols = bivs.volumes()
+plt.plot(vols['LV_ENDO'], marker='.', label='LV volumes')
+plt.plot(vols['RV_ENDO'], marker='.', label='RV volumes')
+plt.xlabel('Frame')
+plt.ylabel('Volume (ml)')
+plt.legend()
+```
+
+![](screenshots/volume_curves.png)
+
+### `BivParametric`
+
+The `BivParametric` takes a higher level of `BivFrames` where you can instantiate a `BivMesh` object at any time between 0.0 to 1.0, thus providing interpolated cardiac models.
+
+Let's try to upsample the model frames from 25 to 99 frames:
+```python
+from biv_lite import BivFrames, BivParametric
+import numpy as np
+
+bivs = BivFrames.from_folder('tests/sample_frames/')
+biv_p = BivParametric(bivs)
+
+# upsampling
+ts = np.linspace(0, 1.0, 2 * len(bivs))
+ts = ts[:-1]
+
+# interpolate
+biv_interp = biv_p(ts)
+len(biv_interp)
+```
+
+Output:
+```text
+99
+```
+
+Plot them side-by-side:
+![](screenshots/side_by_side_hi_res.gif)
+
+### `BivMotionUI`
+
+The `BivMotionUI` provides pyVista graphical user interface to visualise a biventricular mesh object with some interactions.
+
+```python
+from biv_lite import BivFrames, BivMotionUI
+
+bivs = BivFrames.from_folder(r'tests/sample_frames/')
+ui = BivMotionUI(bivs)
+ui.plotter.show()
+```
+
+![](screenshots/biv_motion_ui.png)
+
+## 🕹️ Developer notes
 
 This tool uses `typer` library to create commands and subcommands. It's an amazing library that saves
 your time to build an app. You can read more about Typer here: https://typer.tiangolo.com/
