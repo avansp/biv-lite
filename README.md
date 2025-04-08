@@ -206,6 +206,7 @@ Output:
 ```
 
 Plot them side-by-side:
+
 ![](screenshots/side_by_side_hi_res.gif)
 
 ### `BivMotionUI`
@@ -221,6 +222,8 @@ ui.plotter.show()
 ```
 
 ![](screenshots/biv_motion_ui.png)
+
+_Widgets above are interactive by toggle on/off visibility & selecting frame using a slider._
 
 ## 🕹️ Developer notes
 
