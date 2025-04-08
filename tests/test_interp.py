@@ -1,4 +1,4 @@
-from biv_lite.biv_frames import perinterp
+from biv_lite.meshing.utils import perinterp
 import numpy as np
 import numpy.testing as npt
 

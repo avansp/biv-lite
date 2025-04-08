@@ -3,7 +3,7 @@ from loguru import logger
 from pathlib import Path
 import pyvista as pv
 from biv_lite import BivMesh
-from biv_lite.app.vis import to_pyvista_faces, plot_biv_mesh
+from biv_lite.meshing.vis import to_pyvista_faces, plot_biv_mesh
 
 
 app = typer.Typer(help="Plot commands")

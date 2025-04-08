@@ -1,4 +1,4 @@
-from biv_lite import BivMesh, Components
+from biv_lite import BivMesh
 import pyvista as pv
 import numpy as np
 
