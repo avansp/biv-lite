@@ -192,7 +192,7 @@ bivs = BivFrames.from_folder('tests/sample_frames/')
 biv_p = BivParametric(bivs)
 
 # upsampling
-ts = np.linspace(0, 1.0, 2 * len(bivs))
+ts = np.linspace(0, 1.0, 100)
 ts = ts[:-1]
 
 # interpolate
