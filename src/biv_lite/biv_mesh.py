@@ -33,6 +33,7 @@ class BivMesh(Mesh):
 
     def __init__(self, control_points, name: str = "biv_mesh", model_folder: Path = DEFAULT_MODEL_FOLDER):
         super().__init__(name)
+        self.metadata = dict()
 
         self.control_points = control_points
         self.model_folder = model_folder
@@ -57,6 +58,9 @@ class BivMesh(Mesh):
             f"Faces: {self.elements.shape}, dtype: {self.elements.dtype}",
             f"Components: {', '.join([dir(Components)[int(i)] for i in np.unique(self.materials)])}"
         ])
+
+    def is_empty(self):
+        return self.control_points.shape[0] == 0
 
     def load_template_model(self, model_folder: Path):
         """Load the biventricular template model and prepare the elements & materials"""
@@ -95,7 +99,11 @@ class BivMesh(Mesh):
         new_elem_mat = [list(range(materials.shape[0], materials.shape[0] + et_thru_wall.shape[0])),
                         [len(unique_material)] * len(et_thru_wall)]
 
-        vertices = np.dot(subdivision_matrix, self.control_points)
+        if not self.is_empty():
+            vertices = np.dot(subdivision_matrix, self.control_points)
+        else:
+            vertices = np.empty((0, 3))
+
         elements = np.concatenate((faces.astype(int), et_thru_wall))
         materials = np.concatenate((materials.T, new_elem_mat), axis=1).T.astype(int)
 
@@ -157,11 +165,14 @@ class BivMesh(Mesh):
 
     def lv_endo_volume(self) -> float:
         """Return the LV endocardial volume"""
-        return self.lv_endo(open_valve=False).get_volume().item()
+        return 0.0 if self.is_empty() else self.lv_endo(open_valve=False).get_volume().item()
 
     def rv_endo_volume(self) -> float:
         """Return the RV endocardial volume"""
         # need to flip normals of the RV septum
+        if self.is_empty():
+            return 0.0
+
         rv_endo = self.rv_endo(open_valve=False)
         rv_endo = flip_elements(rv_endo, Components.RV_SEPTUM)
 
@@ -169,6 +180,9 @@ class BivMesh(Mesh):
 
     def lv_epi_volume(self) -> float:
         """Return the LV epicardial volume"""
+        if self.is_empty():
+            return 0.0
+
         # need to flip normals of the through wall elements
         lv_epi = self.lv_epi(open_valve=False)
         lv_epi = flip_elements(lv_epi, Components.THRU_WALL)
@@ -177,6 +191,9 @@ class BivMesh(Mesh):
 
     def rv_epi_volume(self) -> float:
         """Return the RV epicardial volume"""
+        if self.is_empty():
+            return 0.0
+
         # need to flip normals of the septum
         rv_epi = self.rv_epi(open_valve=False)
         rv_epi = flip_elements(rv_epi, Components.RV_SEPTUM)

@@ -8,6 +8,7 @@ class BivParametric:
 
     """
     def __init__(self, biv_frames: BivFrames, k: int = 3):
+        self.metadata = dict()
         self.biv_frames = biv_frames
         assert len(self.biv_frames) > 3, f"Not enough frames to create parametric BivFrames"
 

@@ -10,6 +10,7 @@ class BivFrames(Sequence):
     This simply a list of BivMesh objects with some extra functions specific for cardiac motion.
     """
     def __init__(self, biv_mesh_list: List[BivMesh], frames = None):
+        self.metadata = dict()
         self.biv_mesh = biv_mesh_list
         if frames is None:
             self.frames = list(range(len(self.biv_mesh)))

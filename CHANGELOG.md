@@ -25,3 +25,9 @@
 * `to_pyvista_faces` function is inside `utils.py` file
 * All typer app's are in `app` subfolder, except for `main.py`
 * `BivMotionUI` class is separated in `biv_motion_ui.py` file
+
+## v0.2.1 (11/04/2025)
+
+### Patching
+* Added `metadata` attribute in the `BivMesh`, `BivFrames`, and `BivParametric` to contains any information you want as a dictionary.
+* Added the possibility if a control point is empty (empty `BivMesh`).
