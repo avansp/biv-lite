@@ -7,10 +7,20 @@ class BivParametric:
     """BivFrames defined as a parametric function of 0.0 <= t < 1.0 that defines a full cardiac cycle.
 
     """
-    def __init__(self, biv_frames: BivFrames, k: int = 3):
+    def __init__(self, biv_frames: BivFrames, t: list[float] = None, k: int = 3):
         self.metadata = dict()
         self.biv_frames = biv_frames
         assert len(self.biv_frames) > 3, f"Not enough frames to create parametric BivFrames"
+
+        # create the normalised time frame
+        if t is not None:
+            assert len(t) == len(biv_frames), "Invalid length between biv_frames and t"
+            assert all(0 <= ti < 1.0 for ti in t), "Values of t must 0.0 <= t < 1.0"
+            assert all(ti < tj for ti, tj in zip(t, t[1:])), "Values of t is not monotically increasing"
+            self.metadata["normalised_time"] = t
+        else:
+            ts = np.linspace(0.0, 1.0, num=len(biv_frames)+1)
+            self.metadata["normalised_time"] = ts[:-1]
 
         # check frames values
         if min(self.biv_frames.frames) < 0.0 or max(self.biv_frames.frames) >= 1.0:
@@ -18,10 +28,10 @@ class BivParametric:
             self.biv_frames.frames = np.linspace(0, 1.0, len(self.biv_frames) + 1)
             self.biv_frames.frames = self.biv_frames.frames[:-1]
 
-        # check frame values
-        assert all(np.logical_and(self.biv_frames.frames >= 0, self.biv_frames.frames < 1.0)), f"Invalid time frames. Must be between 0.0 and 1.0 (exclusive 1.0)."
-        assert len(self.biv_frames.frames) == len(self.biv_frames), f"Invalid time frames - do not match the length of biv_frames."
-        assert np.all(self.biv_frames.frames[1:] > self.biv_frames.frames[:-1]), f"Invalid time frames - it is not monotically increasing."
+        # create time axis
+        tn = self.metadata["normalised_time"]
+        ts = np.concat((tn[-k:] - 1.0, tn, 1.0 + tn[:k]))
+        # ts = np.concat((self.biv_frames.frames[-k:] - 1.0, self.biv_frames.frames, 1.0 + self.biv_frames.frames[:k]))
 
         # create interpolation functions for each control point
         self.funcs_int = []
@@ -32,7 +42,6 @@ class BivParametric:
 
             # prepend and append k samples
             xs = np.transpose(np.vstack((ctrl_pts[-k:], ctrl_pts, ctrl_pts[:k])))
-            ts = np.concat((self.biv_frames.frames[-k:] - 1.0, self.biv_frames.frames, 1.0 + self.biv_frames.frames[:k]))
 
             # create interpolation function
             f_int, _ =  make_splprep(xs, u = ts)

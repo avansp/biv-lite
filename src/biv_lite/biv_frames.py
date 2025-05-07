@@ -42,6 +42,14 @@ class BivFrames(Sequence):
     def __iter__(self):
         return iter(self.biv_mesh)
 
+    def lv_endo_volumes(self):
+        """Just compute LV endo volumes"""
+        vols = []
+        for b in self.biv_mesh:
+            vols.append(b.lv_endo_volume())
+
+        return vols
+
     def volumes(self) -> dict:
         """Compute endo- and epicardial LV and RV volumes."""
         lv_endo = []
