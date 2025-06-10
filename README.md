@@ -12,13 +12,21 @@ Note: there is no fitting functionality in this package. The input is a fitting 
 ## 🚀 Installation
 
 ```bash
+pip install git+https://github.kcl.ac.uk/YoungLab/biv-lite
+```
+
+Test run the tool:
+```bash
+biv-lite --help
+```
+
+<details>
+<summary><b>If you intend to develop the package</b></summary>
+
+```bash
 # clone project
 git clone https://github.kcl.ac.uk/YoungLab/biv-lite
 cd biv-lite
-
-# create conda environment
-conda create -n biv-lite python=3.12
-conda activate biv-lite
 
 # install requirements
 pip install -r requirements.txt
@@ -26,9 +34,15 @@ pip install -r requirements.txt
 # additional extension to allow interactive jupyter plot
 pip install trame_jupyter_extension
 
-# install the tool
+# install the package
 pip install --editable .
 ```
+additionally run the test
+```bash
+pytest
+```
+
+</details>
 
 ## 🫀 Using the `BivMesh` class
 
