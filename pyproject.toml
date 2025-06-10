@@ -7,14 +7,23 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.12"
+dependencies = [
+    "scipy",
+    "pyvista",
+    "typer",
+    "loguru"
+]
 
 [project.urls]
 Homepage = "https://github.kcl.ac.uk/YoungLab/biv-lite"
 Issues = "https://github.kcl.ac.uk/YoungLab/biv-lite/issues"
 
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
 biv-lite = "biv_lite.main:app"
+
+[tool.setuptools.package-data]
+"biv_lite.model" = ["*.txt", "*.mat"]
