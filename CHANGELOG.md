@@ -31,3 +31,9 @@
 ### Patching
 * Added `metadata` attribute in the `BivMesh`, `BivFrames`, and `BivParametric` to contains any information you want as a dictionary.
 * Added the possibility if a control point is empty (empty `BivMesh`).
+
+## v0.2.2 (10/06/2025)
+
+### Patching
+* Updated python to 3.12
+* Updated pyvista package to allow trame backend for jupyter notebook.

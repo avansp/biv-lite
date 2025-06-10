@@ -1,12 +1,7 @@
-pytest>=7.4.0           # unit tests
+pytest>=8.4.0           # unit tests
 loguru>=0.7.3           # simple logging no extra sweats
-typer[all]>=0.15.2      # command-line interface
-scipy>=1.15.2           # scientific library
-pandas>=2.2.3           # dataframe manipulation
-numpy>=2.2.3            # numeric tools
-pyvista>=0.44.2         # easy visualisation
+typer[all]>=0.16.0      # command-line interface
+scipy>=1.15.3           # scientific library
+pandas>=2.3.0           # dataframe manipulation
 jupyterlab>=4.3.5       # notebooks
-ipywidgets>=8.1.5       # interactive wigdet for jupyter-lab
-trame>=3.8.0            # backend pyvista on jupyter
-trame-vtk>=2.8.15       # interactive widget on notebook
-trame-vuetify>=2.8.1    # part of trame interactive widget
+pyvista[all]>=0.45.2    # easy visualisation

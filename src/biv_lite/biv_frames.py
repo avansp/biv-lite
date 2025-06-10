@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import List
 import re
 from collections.abc import Sequence
+import numpy as np
 
 
 class BivFrames(Sequence):
@@ -25,6 +26,19 @@ class BivFrames(Sequence):
 
         for i, input_file in enumerate(sorted(Path(folder).glob(pattern), key=lambda p: int(re.search(frame_str, p.name).groups()[0]))):
             bivs.append(BivMesh.from_fitted_model(input_file, name=f"frame_{i}"))
+
+        return BivFrames(bivs)
+
+    @classmethod
+    def from_control_points(cls, control_points: np.array):
+        npts, dim, nframes = control_points.shape
+        assert npts == 388, f"The number of control points must equal to 388"
+        assert dim == 3, f"The dimension of control points must equal to 3"
+        assert nframes > 0, f"The number of frames must be greater than 0"
+
+        bivs = []
+        for i in range(nframes):
+            bivs.append(BivMesh(control_points[:,:,i], name=f"frame_{i}"))
 
         return BivFrames(bivs)
 

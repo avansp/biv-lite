@@ -17,11 +17,14 @@ git clone https://github.kcl.ac.uk/YoungLab/biv-lite
 cd biv-lite
 
 # create conda environment
-conda create -n biv-lite python=3.11
+conda create -n biv-lite python=3.12
 conda activate biv-lite
 
 # install requirements
 pip install -r requirements.txt
+
+# additional extension to allow interactive jupyter plot
+pip install trame_jupyter_extension
 
 # install the tool
 pip install --editable .
