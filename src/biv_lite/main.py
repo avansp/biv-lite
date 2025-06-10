@@ -32,13 +32,5 @@ def load_model(input_model: Path = typer.Argument(..., exists=True, file_okay=Tr
         'materials': [model.materials.shape, model.materials.dtype]
     })
 
-
-@app.command(name="test-data")
-def test_data():
-    from importlib.resources import files
-    ls_points = files("biv_lite.model").joinpath("ls_points.txt").read_text()
-    print(ls_points)
-
-
 if __name__ == "__main__":
     app()
