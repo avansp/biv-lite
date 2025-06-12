@@ -117,6 +117,17 @@ class BivMesh(Mesh):
 
         return BivMesh(control_points, **kwargs)
 
+    def to_fitted_model(self, model_file: str | Path, frame_num: int) -> None:
+        """Write the model control points into a text file"""
+        np.savetxt(
+            model_file,
+            np.c_[self.control_points, frame_num * np.ones(self.control_points.shape[0])],
+            fmt=['%.16f', '%.16f', '%.16f', '%d'],
+            delimiter=',',
+            header="x,y,z,Frame",
+            comments=""
+        )
+
     def lv_endo(self, open_valve = True) -> Mesh:
         """Return the LV endocardial mesh"""
         lv_comps = [Components.LV_ENDOCARDIAL]

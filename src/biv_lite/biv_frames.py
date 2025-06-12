@@ -22,12 +22,19 @@ class BivFrames(Sequence):
 
     @classmethod
     def from_folder(cls, folder: Path | str, pattern: str = "*_Model_Frame_*.txt", frame_str: str = r'_(\d+).txt'):
+        """Load BiVFrames from a folder that contains fitted model files"""
         bivs = []
 
         for i, input_file in enumerate(sorted(Path(folder).glob(pattern), key=lambda p: int(re.search(frame_str, p.name).groups()[0]))):
             bivs.append(BivMesh.from_fitted_model(input_file, name=f"frame_{i}"))
 
         return BivFrames(bivs)
+
+    def save_as(self, model_name: str, new_folder: Path | str) -> None:
+        """Save the full biventricular mesh in a new folder"""
+        Path(new_folder).mkdir(parents=True, exist_ok=False)
+        for i, b in enumerate(self.biv_mesh):
+            b.to_fitted_model(Path(new_folder) / f"{model_name}_Model_Frame_{i:03d}.txt", i)
 
     @classmethod
     def from_control_points(cls, control_points: np.array):
