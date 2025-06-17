@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from biv_lite import BivMesh
 from pathlib import Path
 from typing import List
@@ -35,6 +37,17 @@ class BivFrames(Sequence):
         Path(new_folder).mkdir(parents=True, exist_ok=False)
         for i, b in enumerate(self.biv_mesh):
             b.to_fitted_model(Path(new_folder) / f"{model_name}_Model_Frame_{i:03d}.txt", i)
+
+    def drop_empty_frames(self) -> BivFrames:
+        """Remove empty frames and returns as a new BivFrames object"""
+        valid_idx = [i for i, b in enumerate(self.biv_mesh) if not b.is_empty()]
+
+        return BivFrames(biv_mesh_list=[self.biv_mesh[i] for i in valid_idx], frames=[self.frames[i] for i in valid_idx])
+
+    def make_frames_empty(self, i_frames: List[int]):
+        """Make specific frames specified by i_frames as an empty mesh."""
+        for i in i_frames:
+            self.biv_mesh[i].control_points = np.zeros((0, 3))
 
     @classmethod
     def from_control_points(cls, control_points: np.array):
