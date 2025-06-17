@@ -84,7 +84,7 @@ class BivFrames(Sequence):
 
         return vols
 
-    def volumes(self) -> dict:
+    def volumes(self, mass_index: float = 1.05) -> dict:
         """Compute endo- and epicardial LV and RV volumes."""
         lv_endo = []
         lv_epi = []
@@ -97,7 +97,11 @@ class BivFrames(Sequence):
             rv_endo.append(b.rv_endo_volume())
             rv_epi.append(b.rv_epi_volume())
 
-        return { 'LV_ENDO': lv_endo, 'LV_EPI': lv_epi, 'RV_ENDO': rv_endo, 'RV_EPI': rv_epi }
+        lv_mass = [mass_index * (epi - endo) for endo, epi in zip(lv_endo, lv_epi)]
+        rv_mass = [mass_index * (epi - endo) for endo, epi in zip(rv_endo, rv_epi)]
+
+        return { 'LV_ENDO': lv_endo, 'LV_EPI': lv_epi, 'RV_ENDO': rv_endo, 'RV_EPI': rv_epi,
+                 'LVM': lv_mass, 'RVM': rv_mass}
 
     def gls(self):
         """Compute global longitudinal strain values."""
