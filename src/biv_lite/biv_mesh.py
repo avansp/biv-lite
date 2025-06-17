@@ -176,13 +176,13 @@ class BivMesh(Mesh):
 
     def lv_endo_volume(self) -> float:
         """Return the LV endocardial volume"""
-        return 0.0 if self.is_empty() else self.lv_endo(open_valve=False).get_volume().item()
+        return np.nan if self.is_empty() else self.lv_endo(open_valve=False).get_volume().item()
 
     def rv_endo_volume(self) -> float:
         """Return the RV endocardial volume"""
         # need to flip normals of the RV septum
         if self.is_empty():
-            return 0.0
+            return np.nan
 
         rv_endo = self.rv_endo(open_valve=False)
         rv_endo = flip_elements(rv_endo, Components.RV_SEPTUM)
@@ -192,7 +192,7 @@ class BivMesh(Mesh):
     def lv_epi_volume(self) -> float:
         """Return the LV epicardial volume"""
         if self.is_empty():
-            return 0.0
+            return np.nan
 
         # need to flip normals of the through wall elements
         lv_epi = self.lv_epi(open_valve=False)
@@ -203,12 +203,32 @@ class BivMesh(Mesh):
     def rv_epi_volume(self) -> float:
         """Return the RV epicardial volume"""
         if self.is_empty():
-            return 0.0
+            return np.nan
 
         # need to flip normals of the septum
         rv_epi = self.rv_epi(open_valve=False)
         rv_epi = flip_elements(rv_epi, Components.RV_SEPTUM)
 
         return rv_epi.get_volume().item()
+
+    def lv_mass(self, mass_index: float = 1.05) -> float:
+        """Return the LV mass"""
+        if self.is_empty():
+            return np.nan
+
+        lv_endo_vol = self.lv_endo_volume()
+        lv_epi_vol = self.lv_epi_volume()
+
+        return mass_index * (lv_epi_vol - lv_endo_vol)
+
+    def rv_mass(self, mass_index: float = 1.05) -> float:
+        """Return the RV mass"""
+        if self.is_empty():
+            return np.nan
+
+        rv_endo_vol = self.rv_endo_volume()
+        rv_epi_vol = self.rv_epi_volume()
+
+        return mass_index * (rv_epi_vol - rv_endo_vol)
 
 
