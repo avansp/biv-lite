@@ -27,13 +27,36 @@ class Components(IntEnum):
 
 class BivMesh(Mesh):
     """
-    Wrap Mesh class to make it easier to work with as a biventricular model.
+    This class extends the Mesh base class to specifically handle biventricular cardiac models.
+    The purpose of this class is to facilitate the construction, manipulation, and analysis of
+    biventricular meshes. It provides utilities to load fitted models, manipulate
+    control points, and extract specific components of the mesh, such as the left ventricle (LV)
+    and right ventricle (RV) endocardial and epicardial surfaces. The class supports features
+    such as reading template models and fitted control points, handling subdivision matrices,
+    and performing re-indexing where necessary.
+
+    Attributes:
+        DEFAULT_MODEL_FOLDER (Path): The default folder path to the model templates.
+        control_points: A matrix that defines the control points of the biventricular model.
+        model_folder (Path): Path to the template model folder.
+        subdiv_matrix: Precomputed subdivision matrix for generating mesh nodes.
     """
     DEFAULT_MODEL_FOLDER = Path(inspect.getabsfile(inspect.currentframe())).parent / "model"
 
     def __init__(self, control_points, name: str = "biv_mesh", model_folder: Path = DEFAULT_MODEL_FOLDER):
+        """
+        Represents a class responsible for initializing and creating a biventricular
+        mesh model using a given set of control points. Loads necessary data from a
+        specified template model folder and assigns vertices, elements, and
+        materials to construct the model.
+
+        Args:
+            control_points: Control points used to construct the biventricular model.
+            name: Name assigned to the model. Defaults to "biv_mesh".
+            model_folder: Path to the folder containing the template model data. Defaults
+                to DEFAULT_MODEL_FOLDER. Must be a valid directory.
+        """
         super().__init__(name)
-        self.metadata = dict()
 
         self.control_points = control_points
         self.model_folder = model_folder
@@ -63,7 +86,22 @@ class BivMesh(Mesh):
         return self.control_points.shape[0] == 0
 
     def load_template_model(self, model_folder: Path):
-        """Load the biventricular template model and prepare the elements & materials"""
+        """
+        Loads a template model by reading necessary model files from the specified
+        folder.
+
+        Args:
+            model_folder (Path): Path to the folder where fitted model files
+                are stored.
+
+        Returns:
+            tuple: A tuple containing the following elements:
+                - subdivision_matrix (ndarray): The subdivision matrix loaded
+                  from the corresponding file.
+                - vertices (ndarray): The control points matrix.
+                - elements (ndarray): Mesh elements.
+                - materials (ndarray): Material data for elements.
+        """
         # read necessary files
 
         subdivision_matrix_file = model_folder / 'subdivision_matrix_sparse.mat'
@@ -111,7 +149,26 @@ class BivMesh(Mesh):
 
     @classmethod
     def from_fitted_model(cls, model_file: str | Path, **kwargs):
-        """Load fitted model and returns BivMesh object."""
+        """
+        Creates a BivMesh instance using a fitted model file.
+
+        This class method loads control points from a specified model file
+        and initializes a BivMesh object with the loaded data. The method
+        expects the file to contain comma-separated values, with the
+        control points located in the first three columns of the file.
+        Additional arguments for initializing the BivMesh object may
+        also be provided.
+
+        Args:
+            model_file (str | Path): Path to the file containing the model data,
+                which must include control points in a comma-separated format.
+            **kwargs: Additional parameters that are passed to the BivMesh
+                initializer.
+
+        Returns:
+            BivMesh: A new BivMesh instance initialized with control points
+            from the given model file and any additional parameters.
+        """
         # read the control points
         control_points = np.loadtxt(model_file, delimiter=',',skiprows=1, usecols=[0,1,2]).astype(float)
 
@@ -129,7 +186,19 @@ class BivMesh(Mesh):
         )
 
     def lv_endo(self, open_valve = True) -> Mesh:
-        """Return the LV endocardial mesh"""
+        """
+        Fetch a mesh representation of the left ventricular endocardial components with the
+        option to include or exclude valve structures.
+
+        Args:
+            open_valve: A boolean indicating whether to leave valve structures (AORTA_VALVE
+                and MITRAL_VALVE) open or exclude them from the mesh. If True, the valves are
+                not included. Defaults to True.
+
+        Returns:
+            Mesh: The mesh object representing the specified left ventricular components
+            with relevant configuration based on the open_valve flag.
+        """
         lv_comps = [Components.LV_ENDOCARDIAL]
         if not open_valve:
             lv_comps +=  [Components.AORTA_VALVE, Components.MITRAL_VALVE]
@@ -137,7 +206,18 @@ class BivMesh(Mesh):
         return self.get_mesh_component(lv_comps, label="LV_ENDO", reindex_nodes=False)
 
     def rv_endo(self, open_valve = True) -> Mesh:
-        """Return the RV endocardial mesh"""
+        """
+        Generates the mesh component for the right ventricular endocardium based on the specified components.
+        Optionally includes the pulmonary and tricuspid valves if `open_valve` is set to `False`.
+
+        Args:
+            open_valve (bool, optional): Determines whether to include the pulmonary and tricuspid
+                valves in the generated mesh. If `True`, the valves are excluded. Defaults to `True`.
+
+        Returns:
+            Mesh: The combined mesh component for the right ventricular endocardium, including the
+                specified components based on the `open_valve` argument.
+        """
         rv_comps = [Components.RV_FREEWALL, Components.RV_SEPTUM]
         if not open_valve:
             rv_comps += [Components.PULMONARY_VALVE, Components.TRICUSPID_VALVE]
@@ -145,7 +225,21 @@ class BivMesh(Mesh):
         return self.get_mesh_component(rv_comps, label="RV_ENDO", reindex_nodes=False)
 
     def rvlv_epi(self, open_valve = True) -> Mesh:
-        """Return the LV-RV epicardial mesh"""
+        """Retrieve the mesh component for the epicardial surfaces of the right and left ventricle,
+        optionally including valves.
+
+        This method provides a mesh that includes the epicardial components of the
+        left and right ventricles. By setting the 'open_valve' parameter to False,
+        additional components corresponding to various valves are included in the mesh structure.
+
+        Args:
+            open_valve (bool): If True, the valves are not included in the mesh. If False,
+                components for the aortic, mitral, pulmonary, and tricuspid valves and
+                their respective cut segments are included.
+
+        Returns:
+            Mesh: The constructed mesh component containing the specified elements.
+        """
         comps = [Components.LV_EPICARDIAL, Components.RV_EPICARDIAL]
         if not open_valve:
             comps += [Components.AORTA_VALVE, Components.AORTA_VALVE_CUT,
@@ -156,7 +250,19 @@ class BivMesh(Mesh):
         return self.get_mesh_component(comps, label="RVLV_EPI", reindex_nodes=False)
 
     def lv_epi(self, open_valve = True) -> Mesh:
-        """Return the LV epicardial mesh"""
+        """
+        Generates and retrieves the mesh corresponding to the left ventricle epicardium (LV EPI). This includes specific
+        components representing the epicardium structure. Optionally, additional valve components (aorta and mitral valves,
+        along with their cut regions) can be excluded based on the parameter provided.
+
+        Args:
+            open_valve (bool): A flag to determine whether valve components, including aorta and mitral valves and their
+                cuts, are included in the mesh. If True, valves are included; otherwise, they are excluded.
+
+        Returns:
+            Mesh: The resultant mesh object corresponding to the LV EPI region, potentially including or excluding valve
+            components based on the `open_valve` parameter.
+        """
         comps = [Components.LV_EPICARDIAL, Components.RV_SEPTUM, Components.THRU_WALL]
         if not open_valve:
             comps += [Components.AORTA_VALVE, Components.AORTA_VALVE_CUT,
@@ -165,7 +271,21 @@ class BivMesh(Mesh):
         return self.get_mesh_component(comps, label="LV_EPI", reindex_nodes=False)
 
     def rv_epi(self, open_valve = True) -> Mesh:
-        """Return the RV epicardial mesh"""
+        """
+        Extracts the mesh component for the right ventricle epicardium (RV_EPI), including
+        or excluding specific valve components based on the `open_valve` flag.
+
+        This function retrieves the mesh components for the right ventricle's epicardial
+        region, including the septum and through-wall components. If the `open_valve` flag
+        is set to False, it adds additional valve-related components such as the pulmonary
+        and tricuspid valves, along with their associated cut regions.
+
+        Args:
+            open_valve (bool, optional): If True, excludes valve components (default is True).
+
+        Returns:
+            Mesh: A mesh object representing the requested components for RV_EPI.
+        """
         # [6, 7, 8, 10, 11, 12, 13]
         comps = [Components.RV_EPICARDIAL, Components.RV_SEPTUM, Components.THRU_WALL]
         if not open_valve:
@@ -175,11 +295,31 @@ class BivMesh(Mesh):
         return self.get_mesh_component(comps, label="RV_EPI", reindex_nodes=False)
 
     def lv_endo_volume(self) -> float:
-        """Return the LV endocardial volume"""
+        """
+        Calculates the left ventricular endocardial volume.
+
+        This method determines the volume of the left ventricular endocardium by checking whether the structure is
+        empty. If it is empty, a NaN value is returned. Otherwise, it calculates the volume using the `lv_endo`
+        method with the valve in a closed state and retrieves the volume as a floating-point number.
+
+        Returns:
+            float: The calculated left ventricular endocardial volume if available, otherwise NaN.
+        """
         return np.nan if self.is_empty() else self.lv_endo(open_valve=False).get_volume().item()
 
     def rv_endo_volume(self) -> float:
-        """Return the RV endocardial volume"""
+        """
+        Calculates the end-diastolic volume of the right ventricle (RV) based on the
+        geometry, taking into account specific modifications required to accurately
+        reflect the structure.
+
+        This method assesses whether the structure is empty, flips the normals of the
+        RV septum as needed, and computes the volume of the RV endocardium.
+
+        Returns:
+            float: The computed volume of the right ventricle endocardium. Returns
+            NaN if the structure is empty.
+        """
         # need to flip normals of the RV septum
         if self.is_empty():
             return np.nan
@@ -190,7 +330,19 @@ class BivMesh(Mesh):
         return rv_endo.get_volume().item()
 
     def lv_epi_volume(self) -> float:
-        """Return the LV epicardial volume"""
+        """
+        Computes and returns the volume of the left ventricular epicardium.
+
+        This function first verifies if the required data is available; if not,
+        it returns NaN. It processes the left ventricular epicardium by
+        flipping the normals of through-wall elements to ensure proper
+        orientation. Finally, it calculates and returns the volume of the
+        left ventricular epicardium.
+
+        Returns:
+            float: The computed volume of the left ventricular epicardium.
+            Returns NaN if the required data is not available.
+        """
         if self.is_empty():
             return np.nan
 
@@ -201,7 +353,18 @@ class BivMesh(Mesh):
         return lv_epi.get_volume().item()
 
     def rv_epi_volume(self) -> float:
-        """Return the RV epicardial volume"""
+        """
+        Calculates the volume of the right ventricle (RV) epicardium.
+
+        This function computes the volume of the RV epicardium based on the current
+        geometry configuration. If the dataset is empty, it returns NaN. Additionally,
+        it accounts for flipping the normals of the septum to ensure correct volume
+        calculations.
+
+        Returns:
+            float: The computed volume of the RV epicardium. Returns NaN if the
+            dataset is empty.
+        """
         if self.is_empty():
             return np.nan
 
@@ -212,7 +375,22 @@ class BivMesh(Mesh):
         return rv_epi.get_volume().item()
 
     def lv_mass(self, mass_index: float = 1.05) -> float:
-        """Return the LV mass"""
+        """
+        Calculates the left ventricular (LV) mass using the difference between the
+        epicardial volume and the endocardial volume, scaled by a mass index.
+
+        This method computes the LV mass by subtracting the endocardial (inner)
+        volume from the epicardial (outer) volume and then multiplying the result
+        by a given mass index. If the object is empty (e.g., has no data), it will
+        return 'np.nan'.
+
+        Args:
+            mass_index (float): A multiplier applied to the calculated LV mass to
+                scale or adjust the mass value. Defaults to 1.05.
+
+        Returns:
+            float: The calculated LV mass. Returns 'np.nan' if the object is empty.
+        """
         if self.is_empty():
             return np.nan
 
@@ -222,7 +400,19 @@ class BivMesh(Mesh):
         return mass_index * (lv_epi_vol - lv_endo_vol)
 
     def rv_mass(self, mass_index: float = 1.05) -> float:
-        """Return the RV mass"""
+        """
+        Calculates the right ventricular (RV) mass based on the endocardial and epicardial
+        volumes using a specified mass index. This method returns the calculated RV mass
+        or NaN if the data is unavailable.
+
+        Args:
+            mass_index (float): A multiplier used to scale the difference between the RV
+                epicardial and endocardial volumes. Defaults to 1.05.
+
+        Returns:
+            float: The calculated RV mass based on the given mass index and ventricular
+            volumes. Returns NaN if the RV mass cannot be computed due to empty data.
+        """
         if self.is_empty():
             return np.nan
 
