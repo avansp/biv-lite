@@ -7,6 +7,7 @@ import re
 from collections.abc import Sequence
 import numpy as np
 from typing import Optional
+import shutil
 
 
 class BivFrames(Sequence):
@@ -82,7 +83,7 @@ class BivFrames(Sequence):
 
         return BivFrames(bivs)
 
-    def save_as(self, model_name: str, new_folder: Path | str) -> None:
+    def save_as(self, model_name: str, new_folder: Path | str, overwrite: bool = False) -> None:
         """
         Saves the current state of the object as a set of files in the specified folder with
         the given model name. The files are created in a format specific to fitted models,
@@ -94,10 +95,16 @@ class BivFrames(Sequence):
                 a unique suffix associated with its frame index.
             new_folder: The path to the folder where the files will be saved. If the folder
                 does not exist, it will be created.
+            overwrite: Ignore existing files if the new folder exists
         """
-        Path(new_folder).mkdir(parents=True, exist_ok=False)
+        new_folder = Path(new_folder)
+        if new_folder.exists() and overwrite:
+            # delete the new_folder
+            shutil.rmtree(new_folder)
+
+        new_folder.mkdir(parents=True, exist_ok=False)
         for i, b in enumerate(self.biv_mesh):
-            b.to_fitted_model(Path(new_folder) / f"{model_name}_Model_Frame_{i:03d}.txt", i)
+            b.to_fitted_model(new_folder / f"{model_name}_Model_Frame_{i:03d}.txt", i)
 
     def drop_empty_frames(self, in_place: bool = False) -> Optional[BivFrames]:
         """
@@ -267,8 +274,11 @@ class BivFrames(Sequence):
         lv_mass = [mass_index * (epi - endo) for endo, epi in zip(lv_endo, lv_epi)]
         rv_mass = [mass_index * (epi - endo) for endo, epi in zip(rv_endo, rv_epi)]
 
-        return { 'LV_ENDO': lv_endo, 'LV_EPI': lv_epi, 'RV_ENDO': rv_endo, 'RV_EPI': rv_epi,
-                 'LVM': lv_mass, 'RVM': rv_mass}
+        return {
+            'Frame': list(range(len(lv_endo))),
+            'LV_ENDO': lv_endo, 'LV_EPI': lv_epi, 
+            'RV_ENDO': rv_endo, 'RV_EPI': rv_epi,
+            'LVM': lv_mass, 'RVM': rv_mass }
 
     def gls(self):
         """Compute global longitudinal strain values."""
