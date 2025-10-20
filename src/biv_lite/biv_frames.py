@@ -53,7 +53,7 @@ class BivFrames(Sequence):
         assert len(self.frames) == len(self.biv_mesh), f"Invalid number of frames: {len(self.frames)}"
 
     @classmethod
-    def from_folder(cls, folder: Path | str, pattern: str = "*_Model_Frame_*.txt", frame_str: str = r'_(\d+).txt'):
+    def from_folder(cls, folder: Path | str, pattern: str = "*_model_frame_*.txt", frame_str: str = r'_(\d+).txt'):
         """
         Parses text files matching a specific pattern within a folder and constructs a new BivFrames
         object based on extracted frame identifiers.
@@ -104,7 +104,7 @@ class BivFrames(Sequence):
 
         new_folder.mkdir(parents=True, exist_ok=False)
         for i, b in enumerate(self.biv_mesh):
-            b.to_fitted_model(new_folder / f"{model_name}_Model_Frame_{i:03d}.txt", i)
+            b.to_fitted_model(new_folder / f"{model_name}_model_frame_{i:03d}.txt", i)
 
     def drop_empty_frames(self, in_place: bool = False) -> Optional[BivFrames]:
         """
