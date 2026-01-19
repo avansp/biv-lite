@@ -1,6 +1,6 @@
 [project]
 name = "biv-lite"
-version = "0.2.2"
+version = "0.2.3"
 description = "Manipulation & visualisation of a fitted biventricular model."
 authors = [
     {name="Avan Suinesiaputra", email="k2145129@kcl.ac.uk"}
@@ -12,7 +12,8 @@ dependencies = [
     "numpy",
     "pyvista",
     "typer",
-    "loguru"
+    "loguru",
+    "plotly"
 ]
 
 [project.urls]
