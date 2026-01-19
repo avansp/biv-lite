@@ -53,7 +53,7 @@ class BivFrames(Sequence):
         assert len(self.frames) == len(self.biv_mesh), f"Invalid number of frames: {len(self.frames)}"
 
     @classmethod
-    def from_folder(cls, folder: Path | str, pattern: str = "*_model_frame_*.txt", frame_str: str = r'_(\d+).txt'):
+    def from_folder(cls, folder: Path | str, pattern: str = "*_model_frame_*.txt", frame_str: str = r'_(\d+).txt', max_frames: int = None):
         """
         Parses text files matching a specific pattern within a folder and constructs a new BivFrames
         object based on extracted frame identifiers.
@@ -68,6 +68,7 @@ class BivFrames(Sequence):
             folder (Path | str): Path to the directory containing the text files.
             pattern (str): File name pattern to search for. Defaults to "*_Model_Frame_*.txt".
             frame_str (str): Regular expression used to extract frame numbers from file names.
+            max_frames (int): Maximum number of frames. Useful if you know there should be N number of frames but missing files at the end of the cycles.
 
         Returns:
             BivFrames: A new instance of BivFrames containing BivMesh objects created from
@@ -81,7 +82,14 @@ class BivFrames(Sequence):
         for i, input_file in enumerate(sorted(Path(folder).glob(pattern), key=lambda p: int(re.search(frame_str, p.name).groups()[0]))):
             bivs.append(BivMesh.from_fitted_model(input_file, name=f"frame_{i}"))
 
+        # add empty frames if len(bivs) < max_frames
+        n = len(bivs)
+        if (max_frames is not None) and (n < max_frames):
+            for i in range(max_frames - n):
+                bivs.append(BivMesh(control_points=np.zeros((0, 3)), name=f"frame_{n + i}"))
+                            
         return BivFrames(bivs)
+        
 
     def save_as(self, model_name: str, new_folder: Path | str, overwrite: bool = False) -> None:
         """
@@ -279,7 +287,7 @@ class BivFrames(Sequence):
             'LV_ENDO': lv_endo, 'LV_EPI': lv_epi, 
             'RV_ENDO': rv_endo, 'RV_EPI': rv_epi,
             'LVM': lv_mass, 'RVM': rv_mass }
-
+    
     def gls(self):
         """Compute global longitudinal strain values."""
         # TODO: complete this by copying codes frm biv-me's calculate_longitudinal_strain
