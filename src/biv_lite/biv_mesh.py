@@ -66,8 +66,9 @@ class BivMesh(Mesh):
         # load the Biventricular template model
         self.subdiv_matrix, vertices, elements, materials = self.load_template_model(self.model_folder)
 
-        # load longitudinal strain points
+        # load longitudinal & circumferential strain points
         self.ls_points = pd.read_table(self.model_folder / 'ls_points.txt', sep='\t')
+        self.cs_points = pd.read_table(self.model_folder / 'cs_points.txt', sep='\t')
 
         # create the model
         self.set_nodes(vertices)
@@ -441,5 +442,23 @@ class BivMesh(Mesh):
         
         vertices = self.nodes[(self.ls_points[(self.ls_points.View == view) & (self.ls_points.Surface == surface)].Index).to_numpy(), :]
         return np.linalg.norm(vertices[1:, ] - vertices[:-1, ], axis=1).sum().item()
+
+    def circ_arc_length(self, slice: str, surface: str) -> float:
+        """
+        Compute circumferential arc length along the surface. It's needed to compute BivFrames' circumferential strain values.
+
+        Args:
+            slice (str): is either 'APEX', 'MID', or 'BASE'
+            surface (str): is either 'LV', 'RVS', or 'RVFW.
+
+        Returns:
+            float: the arc length acros the given view on the given surface.
+        """
+        if self.is_empty():
+            return np.nan
+        
+        vertices = self.nodes[(self.cs_points[(self.cs_points.View == slice) & (self.cs_points.Surface == surface)].Index).to_numpy(), :]
+        return np.linalg.norm(vertices[1:, ] - vertices[:-1, ], axis=1).sum().item()
+
 
 

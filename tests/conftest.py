@@ -62,7 +62,9 @@ def sample_biv() -> BivFrames:
         BivFrames: An instance of `BivFrames` created using the specified folder
         and file pattern.
     """
-    return BivFrames.from_folder(Path("tests") / "sample_frames", pattern="*_model_frame_*.txt")
+    bivs = BivFrames.from_folder(Path("tests") / "sample_frames", pattern="*_model_frame_*.txt")
+    assert 25 == len(bivs)
+    return bivs
 
 @pytest.fixture(scope="function")
 def sample_gls() -> dict:
@@ -89,9 +91,40 @@ def sample_gls() -> dict:
     assert np.array_equal(df['frame'].to_numpy(), np.arange(df.shape[0]))
 
     return {
-        'LV_GLS_2CH': df['lv_gls_2ch'].to_numpy(),
-        'LV_GLS_4CH': df['lv_gls_4ch'].to_numpy(),
-        'RVS_GLS_4CH': df['rvs_gls_4ch'].to_numpy(),
-        'RVFW_GLS_4CH': df['rvfw_gls_4ch'].to_numpy()
+        v.upper(): df[v].to_numpy() for v in ['lv_gls_2ch', 'lv_gls_4ch', 'rvs_gls_4ch', 'rvfw_gls_4ch']
     }
+
+@pytest.fixture(scope="function")
+def sample_gcs() -> dict:
+    """
+    A pyfixture for GCS (Global Coordinate System) sample data from a CSV file.
+    
+    This function reads a CSV file containing GCS measurements for different cardiac
+    segments (left ventricle, right ventricle septum, right ventricle free wall) at
+    three levels (apex, mid, base). It filters the data for the "sample_frames"
+    dataset, validates frame continuity, and returns the measurements as a dictionary.
+    Returns:
+        dict: A dictionary with uppercase keys representing GCS measurements:
+            - 'LV_GCS_APEX', 'LV_GCS_MID', 'LV_GCS_BASE': Left ventricle measurements
+            - 'RVS_GCS_APEX', 'RVS_GCS_MID', 'RVS_GCS_BASE': Right ventricle septum measurements
+            - 'RVFW_GCS_APEX', 'RVFW_GCS_MID', 'RVFW_GCS_BASE': Right ventricle free wall measurements
+            Each value is a numpy array of measurements across frames.
+    Raises:
+        AssertionError: If frames are not consecutive starting from 0.
+    """
+
+    gcs_file = Path("tests") / "sample_frames" / "gcs.csv"
+    df = pd.read_csv(gcs_file)
+    df = df[df['name'] == "sample_frames"].sort_values(by='frame')
+
+    assert np.array_equal(df['frame'].to_numpy(), np.arange(df.shape[0]))
+
+    return {
+        v.upper(): df[v].to_numpy() for v in [
+            'lv_gcs_apex', 'lv_gcs_mid', 'lv_gcs_base',
+            'rvs_gcs_apex', 'rvs_gcs_mid', 'rvs_gcs_base',
+            'rvfw_gcs_apex', 'rvfw_gcs_mid', 'rvfw_gcs_base'
+        ]
+    }
+
 

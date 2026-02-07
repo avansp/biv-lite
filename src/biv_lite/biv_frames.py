@@ -299,4 +299,18 @@ class BivFrames(Sequence):
         strain = {k: (v - v[ed_frame]) / v[ed_frame] for k, v in arcs.items()}
 
         return strain
-        
+
+    def gcs(self, ed_frame: int):
+        """Compute global circumferential strain values."""
+        gcs_vs = [('LV', 'APEX'), ('LV', 'MID'), ('LV', 'BASE'),
+                  ('RVFW', 'APEX'), ('RVFW', 'MID'), ('RVFW', 'BASE'),
+                  ('RVS', 'APEX'), ('RVS', 'MID'), ('RVS', 'BASE')]
+
+        # collect arc lengths for the combination of views & surfaces
+        arcs = {f"{s}_GCS_{v}": np.array([b.circ_arc_length(v, s) for b in self.biv_mesh]) for s, v in gcs_vs}
+
+        # compute the strain
+        strain = {k: (v - v[ed_frame]) / v[ed_frame] for k, v in arcs.items()}
+
+        return strain
+
