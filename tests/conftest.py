@@ -63,3 +63,35 @@ def sample_biv() -> BivFrames:
         and file pattern.
     """
     return BivFrames.from_folder(Path("tests") / "sample_frames", pattern="*_Model_Frame_*.txt")
+
+@pytest.fixture(scope="function")
+def sample_gls() -> dict:
+    """
+    A fixture to return Global Longitudinal Strain (GLS) data from a CSV file.
+
+    Reads GLS measurements from a CSV file located at 'tests/sample_frames/gls.csv',
+    filters for rows where the 'name' column equals "sample_frames", and sorts by frame number.
+
+    Returns:
+        dict: A dictionary containing GLS values for different cardiac views:
+            - 'lv_gls_2ch' (numpy.ndarray): Left Ventricle GLS in 2-chamber view
+            - 'lv_gls_4ch' (numpy.ndarray): Left Ventricle GLS in 4-chamber view
+            - 'rvs_gls_4ch' (numpy.ndarray): Right Ventricle Strain GLS in 4-chamber view
+            - 'rvfw_gls_4ch' (numpy.ndarray): Right Ventricle Free Wall GLS in 4-chamber view
+
+    Raises:
+        AssertionError: If frame numbers are not sequential starting from 0.
+    """
+    gls_file = Path("tests") / "sample_frames" / "gls.csv"
+    df = pd.read_csv(gls_file)
+    df = df[df['name'] == "sample_frames"].sort_values(by='frame')
+
+    assert np.array_equal(df['frame'].to_numpy(), np.arange(df.shape[0]))
+
+    return {
+        'lv_gls_2ch': df['lv_gls_2ch'].to_numpy(),
+        'lv_gls_4ch': df['lv_gls_4ch'].to_numpy(),
+        'rvs_gls_4ch': df['rvs_gls_4ch'].to_numpy(),
+        'rvfw_gls_4ch': df['rvfw_gls_4ch'].to_numpy()
+    }
+
