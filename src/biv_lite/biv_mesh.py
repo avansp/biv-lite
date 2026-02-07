@@ -5,6 +5,7 @@ from pathlib import Path
 from enum import IntEnum
 import scipy
 from biv_lite.meshing.utils import flip_elements
+import pandas as pd
 
 
 # component list
@@ -64,6 +65,9 @@ class BivMesh(Mesh):
 
         # load the Biventricular template model
         self.subdiv_matrix, vertices, elements, materials = self.load_template_model(self.model_folder)
+
+        # load longitudinal strain points
+        self.ls_points = pd.read_table(self.model_folder / 'ls_points.txt', sep='\t')
 
         # create the model
         self.set_nodes(vertices)
@@ -420,5 +424,22 @@ class BivMesh(Mesh):
         rv_epi_vol = self.rv_epi_volume()
 
         return mass_index * (rv_epi_vol - rv_endo_vol)
+    
+    def long_arc_length(self, view: str, surface: str) -> float:
+        """
+        Compute longitudinal arc length along the surface. It's needed to compute BivFrames' longitudinal strain values.
+
+        Args:
+            view (str): is either '2CH' or '4CH'.
+            surface (str): is either 'LV', 'RVS', or 'RVFW.
+
+        Returns:
+            float: the arc length acros the given view on the given surface.
+        """
+        if self.is_empty():
+            return np.nan
+        
+        vertices = self.nodes[(self.ls_points[(self.ls_points.View == view) & (self.ls_points.Surface == surface)].Index).to_numpy(), :]
+        return np.linalg.norm(vertices[1:, ] - vertices[:-1, ], axis=1).sum().item()
 
 

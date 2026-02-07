@@ -62,7 +62,7 @@ def sample_biv() -> BivFrames:
         BivFrames: An instance of `BivFrames` created using the specified folder
         and file pattern.
     """
-    return BivFrames.from_folder(Path("tests") / "sample_frames", pattern="*_Model_Frame_*.txt")
+    return BivFrames.from_folder(Path("tests") / "sample_frames", pattern="*_model_frame_*.txt")
 
 @pytest.fixture(scope="function")
 def sample_gls() -> dict:
@@ -89,9 +89,9 @@ def sample_gls() -> dict:
     assert np.array_equal(df['frame'].to_numpy(), np.arange(df.shape[0]))
 
     return {
-        'lv_gls_2ch': df['lv_gls_2ch'].to_numpy(),
-        'lv_gls_4ch': df['lv_gls_4ch'].to_numpy(),
-        'rvs_gls_4ch': df['rvs_gls_4ch'].to_numpy(),
-        'rvfw_gls_4ch': df['rvfw_gls_4ch'].to_numpy()
+        'LV_GLS_2CH': df['lv_gls_2ch'].to_numpy(),
+        'LV_GLS_4CH': df['lv_gls_4ch'].to_numpy(),
+        'RVS_GLS_4CH': df['rvs_gls_4ch'].to_numpy(),
+        'RVFW_GLS_4CH': df['rvfw_gls_4ch'].to_numpy()
     }
 

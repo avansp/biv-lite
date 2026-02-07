@@ -288,6 +288,15 @@ class BivFrames(Sequence):
             'RV_ENDO': rv_endo, 'RV_EPI': rv_epi,
             'LVM': lv_mass, 'RVM': rv_mass }
     
-    def gls(self):
+    def gls(self, ed_frame: int):
         """Compute global longitudinal strain values."""
-        # TODO: complete this by copying codes frm biv-me's calculate_longitudinal_strain
+        gls_vs = [('LV', '2CH'), ('LV', '4CH'), ('RVS', '4CH'), ('RVFW', '4CH')]
+
+        # collect arc lengths for the combination of views & surfaces
+        arcs = {f"{s}_GLS_{v}": np.array([b.long_arc_length(v, s) for b in self.biv_mesh]) for s, v in gls_vs}
+
+        # compute the strain
+        strain = {k: (v - v[ed_frame]) / v[ed_frame] for k, v in arcs.items()}
+
+        return strain
+        
