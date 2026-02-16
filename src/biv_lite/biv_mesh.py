@@ -459,6 +459,3 @@ class BivMesh(Mesh):
         
         vertices = self.nodes[(self.cs_points[(self.cs_points.View == slice) & (self.cs_points.Surface == surface)].Index).to_numpy(), :]
         return np.linalg.norm(vertices[1:, ] - vertices[:-1, ], axis=1).sum().item()
-
-
-

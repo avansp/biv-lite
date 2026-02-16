@@ -1,9 +1,9 @@
 [project]
 name = "biv-lite"
-version = "0.2.3"
+version = "0.2.4"
 description = "Manipulation & visualisation of a fitted biventricular model."
 authors = [
-    {name="Avan Suinesiaputra", email="k2145129@kcl.ac.uk"}
+    {name="Avan Suinesiaputra", email="avan.sp@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
@@ -13,12 +13,13 @@ dependencies = [
     "pyvista",
     "typer",
     "loguru",
-    "plotly"
+    "plotly",
+    "pandas"
 ]
 
 [project.urls]
-Homepage = "https://github.kcl.ac.uk/YoungLab/biv-lite"
-Issues = "https://github.kcl.ac.uk/YoungLab/biv-lite/issues"
+Homepage = "https://github.com/avansp/biv-lite"
+Issues = "https://github.com/avansp/biv-lite/issues"
 
 [build-system]
 requires = ["setuptools"]

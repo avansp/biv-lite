@@ -8,7 +8,7 @@
 * Refactored the package using *src_layout* layout from pypackage documentation.
 * Main CLI command is `biv-lite`.
 * Added volumes and mass calculation.
-* Provided notebooks to plot different ways.
+* Provided notebooks to plot biv models in different ways.
 
 ## v0.2.0 (24/03/2025)
 
@@ -37,3 +37,9 @@
 ### Patching
 * Updated python to 3.12
 * Updated pyvista package to allow trame backend for jupyter notebook.
+
+## v0.2.4 (08/02/2026)
+
+### Features
+* Added longitudinal and circumferential arc length for `BivMesh` class
+* Added global circumferential and longitudinal strain calculation for `BivFrames` class
