@@ -1,6 +1,6 @@
 [project]
 name = "biv-lite"
-version = "0.2.4"
+version = "0.2.5"
 description = "Manipulation & visualisation of a fitted biventricular model."
 authors = [
     {name="Avan Suinesiaputra", email="avan.sp@gmail.com"}

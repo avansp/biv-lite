@@ -6,6 +6,7 @@ from enum import IntEnum
 import scipy
 from biv_lite.meshing.utils import flip_elements
 import pandas as pd
+from typing import List
 
 
 # component list
@@ -92,6 +93,12 @@ class BivMesh(Mesh):
         ])
 
     def is_empty(self):
+        """
+        Check if the mesh is empty.
+        
+        :return: True if the mesh contains no control points, False otherwise.
+        :rtype: bool
+        """
         return self.control_points.shape[0] == 0
 
     def load_template_model(self, model_folder: Path) -> tuple:
@@ -166,8 +173,7 @@ class BivMesh(Mesh):
         and initializes a BivMesh object.
 
         Args:
-            model_file: Path to the fitted model file (CSV format with control points
-                in columns 0-2).
+            model_file: Path to the fitted model file (see example in tests/fitted_model.txt).
             **kwargs: Additional keyword arguments passed to BivMesh constructor.
 
         Returns:
@@ -409,3 +415,57 @@ class BivMesh(Mesh):
         
         vertices = self.nodes[(self.cs_points[(self.cs_points.View == slice) & (self.cs_points.Surface == surface)].Index).to_numpy(), :]
         return np.linalg.norm(vertices[1:, ] - vertices[:-1, ], axis=1).sum().item()
+
+    def to_obj(self, output_filename: Path, components: List[IntEnum] = None):
+        """
+        Export the BiVMesh object to a Wavefront OBJ file format.
+        This method writes the mesh geometry and material assignments to a .obj file,
+        organizing faces by component/material groups.
+
+        :param output_filename: Path to the output OBJ file.
+        :type output_filename: Path
+        :param components: List of component enums to include in the export. 
+                          If None, all available components are included.
+        :type components: List[IntEnum], optional
+        :returns: None
+        :raises IOError: If the output file cannot be written.
+        .. note::
+            Vertex indices are automatically converted to 1-based indexing as required 
+            by the OBJ format specification.
+        .. note::
+            Components with no associated faces are skipped in the output.
+
+        :example:
+            >>> mesh = BiVMesh(...)
+            >>> mesh.to_obj("biv.obj")
+            >>> mesh.to_obj("rvlv.obj", components=[Components.LV_ENDOCARDIAL, Components.RV_FREEWALL, Components.RV_SEPTUM])
+        """
+        if not components:
+            components = Components
+
+        with open(output_filename, 'wt') as f:
+            # Write header
+            f.write(f"# Wavefront OBJ file\n")
+            f.write(f"# Converted from BiVMesh object\n")
+            f.write(f"# Object: {self.label}\n\n")
+
+            # Write vertices
+            for vertex in self.nodes:
+                f.write(f"v {vertex[0]:.6f} {vertex[1]:.6f} {vertex[2]:.6f}\n")
+            f.write("\n")
+
+            # Write faces with material assignments
+            for mat in components:
+                # Get faces with the mat value
+                elements = self.elements[np.argwhere(self.materials == mat.value).flatten(), :]
+
+                if elements.shape[0] == 0:
+                    continue
+                    
+                f.write(f"o {mat.name}\n")
+                
+                # Write face (convert to 1-indexed for OBJ format)
+                for el in elements:
+                    f.write(f"f {el[0]+1} {el[1]+1} {el[2]+1}\n")
+                f.write("\n")
+
