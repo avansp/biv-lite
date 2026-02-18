@@ -3,7 +3,7 @@ import numpy as np
 import copy
 from scipy import stats
 from loguru import logger
-from biv_align.spike_detector import mad_lm
+from .spike_detector import mad_lm
 
 
 def impute_biv_frames(biv_in: BivFrames, smoothing: float = 0.0, verbose: bool = False) -> BivFrames:
