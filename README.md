@@ -12,7 +12,7 @@ Note: there is no fitting functionality in this package. The input is a fitting 
 ## 🚀 Installation
 
 ```bash
-pip install git+https://github.kcl.ac.uk/YoungLab/biv-lite
+pip install git+https://github.com/avansp/biv-lite
 ```
 
 Test run the tool:
@@ -25,7 +25,7 @@ biv-lite --help
 
 ```bash
 # clone project
-git clone https://github.kcl.ac.uk/YoungLab/biv-lite
+git clone https://github.com/avansp/biv-lite
 cd biv-lite
 
 # install requirements
