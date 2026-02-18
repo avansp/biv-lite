@@ -3,6 +3,8 @@ Biventricular Lite
 
 <p align="center">
 <img height="300" src="screenshots/biv_banner.png">
+
+Documentation: https://avansp.github.io/biv-lite/
 </p>
 
 This package contains simple command line tools to load, visualise, and some quick processing of a biventricular model. The model was taken from from the `biv-me` package: https://github.com/UOA-Heart-Mechanics-Research/biv-me.

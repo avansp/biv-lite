@@ -43,3 +43,9 @@
 ### Features
 * Added longitudinal and circumferential arc length for `BivMesh` class
 * Added global circumferential and longitudinal strain calculation for `BivFrames` class
+
+## v0.2.5 (18/02/2026)
+
+### Features
+* Added export functions to OBJ
+* Added documentation to gh-pages
