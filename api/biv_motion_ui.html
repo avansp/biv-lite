@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BivMotionUI &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="BivParametric" href="biv_parametric.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_mesh.html">BivMesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_frames.html">BivFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_parametric.html">BivParametric</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BivMotionUI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI"><code class="docutils literal notranslate"><span class="pre">BivMotionUI</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.biv_frames"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.biv_frames</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.plotter"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.plotter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.current_frame"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.current_frame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.actors"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.actors</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.slider"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.slider</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.__init__"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.show"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.add_toggle_visibility_widgets"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.add_toggle_visibility_widgets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.replace_mesh_callback"><code class="docutils literal notranslate"><span class="pre">BivMotionUI.replace_mesh_callback()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BivMotionUI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/biv_motion_ui.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bivmotionui">
+<h1>BivMotionUI<a class="headerlink" href="#bivmotionui" title="Link to this heading"></a></h1>
+<p>Interactive GUI for biventricular mesh visualization.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biv_lite.meshing.biv_motion_ui.</span></span><span class="sig-name descname"><span class="pre">BivMotionUI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">biv_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames"><span class="pre">BivFrames</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_slider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/meshing/biv_motion_ui.html#BivMotionUI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A visualization tool for rendering and interacting with Biventricular (BivMesh) models.</p>
+<p>This class provides an interactive user interface to visualize 3D datasets containing
+biventricular heart models. It enables the user to explore different frames of the
+model using a slider widget and provides tools to toggle the visibility of individual
+components. The visualization is built upon PyVista, and the customizable interface
+supports additional configurations for enhanced usability.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.biv_frames">
+<span class="sig-name descname"><span class="pre">biv_frames</span></span><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.biv_frames" title="Link to this definition"></a></dt>
+<dd><p>A collection or sequence of frames containing the 3D
+heart model data to be visualized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames">BivFrames</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.plotter">
+<span class="sig-name descname"><span class="pre">plotter</span></span><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.plotter" title="Link to this definition"></a></dt>
+<dd><p>The PyVista plotter instance used for rendering the
+visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pv.Plotter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.current_frame">
+<span class="sig-name descname"><span class="pre">current_frame</span></span><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.current_frame" title="Link to this definition"></a></dt>
+<dd><p>The index of the currently displayed frame in the
+visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.actors">
+<span class="sig-name descname"><span class="pre">actors</span></span><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.actors" title="Link to this definition"></a></dt>
+<dd><p>A dictionary mapping component labels (e.g., “LV”, “RV”, “EPI”) to
+their respective 3D actors in the visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.slider">
+<span class="sig-name descname"><span class="pre">slider</span></span><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.slider" title="Link to this definition"></a></dt>
+<dd><p>The slider widget instance added to the plotter for frame selection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">biv_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames"><span class="pre">BivFrames</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_slider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/meshing/biv_motion_ui.html#BivMotionUI.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a visualization tool for displaying BivMesh models using an interactive UI. This class
+sets up a plotter, renders the initial frame, and optionally adds a slider widget to switch between
+different frames of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>biv_frames</strong> – A collection or sequence of BivFrames to visualize.</p></li>
+<li><p><strong>show_slider</strong> – A boolean indicating whether to display a slider widget for frame selection. Defaults to True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/meshing/biv_motion_ui.html#BivMotionUI.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.show" title="Link to this definition"></a></dt>
+<dd><p>Displays the plot using the configured plotter instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – Arbitrary keyword arguments passed to the underlying
+plotter’s <cite>show</cite> method. These arguments allow additional
+customization or specific behavior during the rendering process.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.add_toggle_visibility_widgets">
+<span class="sig-name descname"><span class="pre">add_toggle_visibility_widgets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/meshing/biv_motion_ui.html#BivMotionUI.add_toggle_visibility_widgets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.add_toggle_visibility_widgets" title="Link to this definition"></a></dt>
+<dd><p>Adds toggle visibility widgets to the plotter for each actor.</p>
+<p>This function creates widgets and text labels for toggling the visibility of
+actors in a plotter. Each actor is associated with a checkbox that allows the
+user to switch its visibility on or off. The function iterates through all the
+actors and their corresponding labels, adding these widgets to the plotter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.biv_motion_ui.BivMotionUI.replace_mesh_callback">
+<span class="sig-name descname"><span class="pre">replace_mesh_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/meshing/biv_motion_ui.html#BivMotionUI.replace_mesh_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.biv_motion_ui.BivMotionUI.replace_mesh_callback" title="Link to this definition"></a></dt>
+<dd><p>Updates the mesh data for the current frame of a 3D heart model visualization.
+This function replaces the left ventricle (LV), right ventricle (RV), and the
+epicardium (EPI) meshes in the visualization based on the provided frame value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="biv_parametric.html" class="btn btn-neutral float-left" title="BivParametric" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

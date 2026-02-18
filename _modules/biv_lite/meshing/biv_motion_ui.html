@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>biv_lite.meshing.biv_motion_ui &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/modules.html">Modules Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/biv_mesh.html">BivMesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/biv_frames.html">BivFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/biv_parametric.html">BivParametric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/biv_motion_ui.html">BivMotionUI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">biv_lite.meshing.biv_motion_ui</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for biv_lite.meshing.biv_motion_ui</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyvista</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biv_lite.meshing.vis</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_biv_mesh</span><span class="p">,</span> <span class="n">to_pyvista_faces</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biv_lite.biv_frames</span><span class="w"> </span><span class="kn">import</span> <span class="n">BivFrames</span>
+
+
+<div class="viewcode-block" id="BivMotionUI">
+<a class="viewcode-back" href="../../../api/generated/biv_lite.meshing.biv_motion_ui.html#biv_lite.meshing.biv_motion_ui.BivMotionUI">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BivMotionUI</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A visualization tool for rendering and interacting with Biventricular (BivMesh) models.</span>
+
+<span class="sd">    This class provides an interactive user interface to visualize 3D datasets containing</span>
+<span class="sd">    biventricular heart models. It enables the user to explore different frames of the</span>
+<span class="sd">    model using a slider widget and provides tools to toggle the visibility of individual</span>
+<span class="sd">    components. The visualization is built upon PyVista, and the customizable interface</span>
+<span class="sd">    supports additional configurations for enhanced usability.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        biv_frames (BivFrames): A collection or sequence of frames containing the 3D</span>
+<span class="sd">            heart model data to be visualized.</span>
+<span class="sd">        plotter (pv.Plotter): The PyVista plotter instance used for rendering the</span>
+<span class="sd">            visualization.</span>
+<span class="sd">        current_frame (int): The index of the currently displayed frame in the</span>
+<span class="sd">            visualization.</span>
+<span class="sd">        actors (dict): A dictionary mapping component labels (e.g., &quot;LV&quot;, &quot;RV&quot;, &quot;EPI&quot;) to</span>
+<span class="sd">            their respective 3D actors in the visualization.</span>
+<span class="sd">        slider: The slider widget instance added to the plotter for frame selection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BivMotionUI.__init__">
+<a class="viewcode-back" href="../../../api/generated/biv_lite.meshing.biv_motion_ui.html#biv_lite.meshing.biv_motion_ui.BivMotionUI.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">biv_frames</span><span class="p">:</span> <span class="n">BivFrames</span><span class="p">,</span> <span class="n">show_slider</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a visualization tool for displaying BivMesh models using an interactive UI. This class</span>
+<span class="sd">        sets up a plotter, renders the initial frame, and optionally adds a slider widget to switch between</span>
+<span class="sd">        different frames of the dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            biv_frames: A collection or sequence of BivFrames to visualize.</span>
+<span class="sd">            show_slider: A boolean indicating whether to display a slider widget for frame selection. Defaults to True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span> <span class="o">=</span> <span class="n">biv_frames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actors</span> <span class="o">=</span> <span class="n">plot_biv_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show_slider</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">slider</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">add_slider_widget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">replace_mesh_callback</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                                                         <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_toggle_visibility_widgets</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="BivMotionUI.show">
+<a class="viewcode-back" href="../../../api/generated/biv_lite.meshing.biv_motion_ui.html#biv_lite.meshing.biv_motion_ui.BivMotionUI.show">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Displays the plot using the configured plotter instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs: Arbitrary keyword arguments passed to the underlying</span>
+<span class="sd">                plotter&#39;s `show` method. These arguments allow additional</span>
+<span class="sd">                customization or specific behavior during the rendering process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="BivMotionUI.add_toggle_visibility_widgets">
+<a class="viewcode-back" href="../../../api/generated/biv_lite.meshing.biv_motion_ui.html#biv_lite.meshing.biv_motion_ui.BivMotionUI.add_toggle_visibility_widgets">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_toggle_visibility_widgets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds toggle visibility widgets to the plotter for each actor.</span>
+
+<span class="sd">        This function creates widgets and text labels for toggling the visibility of</span>
+<span class="sd">        actors in a plotter. Each actor is associated with a checkbox that allows the</span>
+<span class="sd">        user to switch its visibility on or off. The function iterates through all the</span>
+<span class="sd">        actors and their corresponding labels, adding these widgets to the plotter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span>
+        <span class="n">start_pos</span> <span class="o">=</span> <span class="mi">10</span>
+
+        <span class="k">for</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">toggle_vis_callback</span> <span class="o">=</span> <span class="n">SetVisibilityCallback</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">add_checkbox_button_widget</span><span class="p">(</span>
+                <span class="n">callback</span><span class="o">=</span><span class="n">toggle_vis_callback</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">color_on</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">prop</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+                <span class="n">color_off</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+                <span class="n">border_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">start_pos</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">lbl</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">start_pos</span><span class="p">),</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">start_pos</span> <span class="o">+=</span> <span class="n">size</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span> <span class="o">//</span> <span class="mi">10</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMotionUI.replace_mesh_callback">
+<a class="viewcode-back" href="../../../api/generated/biv_lite.meshing.biv_motion_ui.html#biv_lite.meshing.biv_motion_ui.BivMotionUI.replace_mesh_callback">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">replace_mesh_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the mesh data for the current frame of a 3D heart model visualization.</span>
+<span class="sd">        This function replaces the left ventricle (LV), right ventricle (RV), and the</span>
+<span class="sd">        epicardium (EPI) meshes in the visualization based on the provided frame value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">frame_num</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">frame_num</span><span class="p">))</span>
+
+        <span class="c1"># replace LV</span>
+        <span class="n">lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span><span class="p">]</span><span class="o">.</span><span class="n">lv_endo</span><span class="p">()</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">lv</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">to_pyvista_faces</span><span class="p">(</span><span class="n">lv</span><span class="o">.</span><span class="n">elements</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s1">&#39;LV&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+        <span class="c1"># replace RV</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span><span class="p">]</span><span class="o">.</span><span class="n">rv_endo</span><span class="p">()</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">to_pyvista_faces</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">elements</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s1">&#39;RV&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+        <span class="c1"># replace EPI</span>
+        <span class="n">epi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_frame</span><span class="p">]</span><span class="o">.</span><span class="n">rvlv_epi</span><span class="p">()</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">epi</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">to_pyvista_faces</span><span class="p">(</span><span class="n">epi</span><span class="o">.</span><span class="n">elements</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s1">&#39;EPI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SetVisibilityCallback">
+<a class="viewcode-back" href="../../../api/generated/biv_lite.meshing.biv_motion_ui.html#biv_lite.meshing.biv_motion_ui.SetVisibilityCallback">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SetVisibilityCallback</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Encapsulates a callback mechanism to set the visibility state of an actor.</span>
+
+<span class="sd">    This class provides a callable object that updates the visibility state of</span>
+<span class="sd">    a given actor. The SetVisibilityCallback object can be used to dynamically</span>
+<span class="sd">    modify the visibility of an actor based on external inputs or events.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        actor: The actor whose visibility will be controlled by the callback.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SetVisibilityCallback.__init__">
+<a class="viewcode-back" href="../../../api/generated/biv_lite.meshing.biv_motion_ui.html#biv_lite.meshing.biv_motion_ui.SetVisibilityCallback.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actor</span> <span class="o">=</span> <span class="n">actor</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">SetVisibility</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

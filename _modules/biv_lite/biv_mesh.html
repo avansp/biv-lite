@@ -1,0 +1,649 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>biv_lite.biv_mesh &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">Modules Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_mesh.html">BivMesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_frames.html">BivFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_parametric.html">BivParametric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_motion_ui.html">BivMotionUI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">biv_lite.biv_mesh</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for biv_lite.biv_mesh</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biv_lite.meshing.mesh</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mesh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntEnum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">biv_lite.meshing.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">flip_elements</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+
+
+<span class="c1"># component list</span>
+<div class="viewcode-block" id="Components">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.Components">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Components</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">AORTA_VALVE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">AORTA_VALVE_CUT</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">LV_ENDOCARDIAL</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">LV_EPICARDIAL</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">MITRAL_VALVE</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">MITRAL_VALVE_CUT</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">PULMONARY_VALVE</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">PULMONARY_VALVE_CUT</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">RV_EPICARDIAL</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">RV_FREEWALL</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="n">RV_SEPTUM</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">TRICUSPID_VALVE</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="n">TRICUSPID_VALVE_CUT</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="n">THRU_WALL</span> <span class="o">=</span> <span class="mi">13</span></div>
+
+
+
+<div class="viewcode-block" id="BivMesh">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BivMesh</span><span class="p">(</span><span class="n">Mesh</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle biventricular cardiac mesh models.</span>
+
+<span class="sd">    This class extends the Mesh base class to facilitate the construction,</span>
+<span class="sd">    manipulation, and analysis of biventricular meshes. It provides utilities</span>
+<span class="sd">    to load fitted models, manipulate control points, and extract specific</span>
+<span class="sd">    components (LV/RV endocardial and epicardial surfaces), with support for</span>
+<span class="sd">    template models, subdivision matrices, and component re-indexing.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        DEFAULT_MODEL_FOLDER (Path): Default folder path for model templates.</span>
+<span class="sd">        control_points (ndarray): Control points defining the biventricular model.</span>
+<span class="sd">        model_folder (Path): Path to the template model folder.</span>
+<span class="sd">        subdiv_matrix (ndarray): Precomputed subdivision matrix for mesh generation.</span>
+<span class="sd">        ls_points (DataFrame): Longitudinal strain point indices.</span>
+<span class="sd">        cs_points (DataFrame): Circumferential strain point indices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DEFAULT_MODEL_FOLDER</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getabsfile</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()))</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;model&quot;</span>
+
+<div class="viewcode-block" id="BivMesh.__init__">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;biv_mesh&quot;</span><span class="p">,</span> 
+                 <span class="n">model_folder</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">DEFAULT_MODEL_FOLDER</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a biventricular mesh model.</span>
+
+<span class="sd">        Creates a BivMesh instance using control points and loads necessary data</span>
+<span class="sd">        from a template model folder to construct vertices, elements, and materials.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            control_points: Array of control points (Nx3) for the biventricular model.</span>
+<span class="sd">            name: Name assigned to the mesh. Defaults to &quot;biv_mesh&quot;.</span>
+<span class="sd">            model_folder: Path to folder containing template model data.</span>
+<span class="sd">                Defaults to DEFAULT_MODEL_FOLDER.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If model_folder does not exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_points</span> <span class="o">=</span> <span class="n">control_points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_folder</span> <span class="o">=</span> <span class="n">model_folder</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_folder</span><span class="o">.</span><span class="n">is_dir</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_folder</span><span class="si">}</span><span class="s2"> does not exist&quot;</span>
+
+        <span class="c1"># load the Biventricular template model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subdiv_matrix</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">elements</span><span class="p">,</span> <span class="n">materials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_template_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_folder</span><span class="p">)</span>
+
+        <span class="c1"># load longitudinal &amp; circumferential strain points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ls_points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_folder</span> <span class="o">/</span> <span class="s1">&#39;ls_points.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs_points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_folder</span> <span class="o">/</span> <span class="s1">&#39;cs_points.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># create the model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_nodes</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_elements</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_materials</span><span class="p">(</span><span class="n">materials</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">materials</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(control_points=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">control_points</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;BivMesh&gt; object</span><span class="se">\n</span><span class="s2">  &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="sa">f</span><span class="s2">&quot;Label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Control points: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">control_points</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, dtype: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">control_points</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Vertices: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, dtype: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Faces: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, dtype: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Components: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">dir</span><span class="p">(</span><span class="n">Components</span><span class="p">)[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">materials</span><span class="p">)])</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">])</span>
+
+<div class="viewcode-block" id="BivMesh.is_empty">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.is_empty">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the mesh is empty.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: True if the mesh contains no control points, False otherwise.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.load_template_model">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.load_template_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_template_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_folder</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load template model files from the specified folder.</span>
+
+<span class="sd">        Reads mesh data including subdivision matrix, elements, and material</span>
+<span class="sd">        information from model files.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_folder: Path to folder containing template model files.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple containing:</span>
+<span class="sd">                - subdivision_matrix (ndarray): Subdivision matrix (sparse).</span>
+<span class="sd">                - vertices (ndarray): Mesh vertices/nodes.</span>
+<span class="sd">                - elements (ndarray): Triangle element connectivity.</span>
+<span class="sd">                - materials (ndarray): Material identifiers for elements.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If required model files are not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># read necessary files</span>
+
+        <span class="n">subdivision_matrix_file</span> <span class="o">=</span> <span class="n">model_folder</span> <span class="o">/</span> <span class="s1">&#39;subdivision_matrix_sparse.mat&#39;</span>
+        <span class="k">assert</span> <span class="n">subdivision_matrix_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Cannot find </span><span class="si">{</span><span class="n">subdivision_matrix_file</span><span class="si">}</span><span class="s2"> file!&quot;</span>
+        <span class="n">subdivision_matrix</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">subdivision_matrix_file</span><span class="p">))[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+        <span class="n">elements_file</span> <span class="o">=</span> <span class="n">model_folder</span> <span class="o">/</span> <span class="s1">&#39;ETIndicesSorted.txt&#39;</span>
+        <span class="k">assert</span> <span class="n">elements_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Cannot find </span><span class="si">{</span><span class="n">elements_file</span><span class="si">}</span><span class="s2"> file!&quot;</span>
+        <span class="n">faces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">elements_file</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">material_file</span> <span class="o">=</span> <span class="n">model_folder</span> <span class="o">/</span> <span class="s1">&#39;ETIndicesMaterials.txt&#39;</span>
+        <span class="k">assert</span> <span class="n">material_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Cannot find </span><span class="si">{</span><span class="n">material_file</span><span class="si">}</span><span class="s2"> file!&quot;</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">material_file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
+
+        <span class="c1"># A.M. :there is a gap between septum surface and the epicardial</span>
+        <span class="c1">#   Which needs to be closed if the RV/LV epicardial volume is needed</span>
+        <span class="c1">#   this gap can be closed by using the et_thru_wall facets</span>
+        <span class="n">thru_wall_file</span> <span class="o">=</span> <span class="n">model_folder</span> <span class="o">/</span> <span class="s1">&#39;thru_wall_et_indices.txt&#39;</span>
+        <span class="k">assert</span> <span class="n">thru_wall_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Cannot find </span><span class="si">{</span><span class="n">thru_wall_file</span><span class="si">}</span><span class="s2"> file!&quot;</span>
+        <span class="n">et_thru_wall</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">thru_wall_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1">## convert labels to integer corresponding to the sorted list</span>
+        <span class="c1"># of unique labels types</span>
+        <span class="n">unique_material</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mat</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">materials</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_material</span><span class="p">):</span>
+            <span class="n">face_index</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span>
+            <span class="n">materials</span><span class="p">[</span><span class="n">face_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="n">face_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">materials</span><span class="p">[</span><span class="n">face_index</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">face_index</span><span class="p">)</span>
+
+        <span class="c1"># add material for the new facets</span>
+        <span class="n">new_elem_mat</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">materials</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">materials</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">et_thru_wall</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
+                        <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_material</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">et_thru_wall</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">subdivision_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_points</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">faces</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">et_thru_wall</span><span class="p">))</span>
+        <span class="n">materials</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">materials</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">new_elem_mat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">subdivision_matrix</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">elements</span><span class="p">,</span> <span class="n">materials</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.from_fitted_model">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.from_fitted_model">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_fitted_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">model_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BivMesh&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a BivMesh from a fitted model file.</span>
+
+<span class="sd">        Loads control points from a comma-separated file (3 columns: x, y, z)</span>
+<span class="sd">        and initializes a BivMesh object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_file: Path to the fitted model file (see example in tests/fitted_model.txt).</span>
+<span class="sd">            **kwargs: Additional keyword arguments passed to BivMesh constructor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new BivMesh instance initialized with loaded control points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># read the control points</span>
+        <span class="n">control_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">model_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">BivMesh</span><span class="p">(</span><span class="n">control_points</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.to_fitted_model">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.to_fitted_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_fitted_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">frame_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write model control points to a fitted model file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_file: Output file path for the fitted model.</span>
+<span class="sd">            frame_num: Frame number to write in the output file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
+            <span class="n">model_file</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">control_points</span><span class="p">,</span> <span class="n">frame_num</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.16f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.16f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.16f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">],</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="s2">&quot;x,y,z,Frame&quot;</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.lv_endo">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.lv_endo">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lv_endo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">open_valve</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mesh</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get left ventricular endocardial mesh.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            open_valve: If True, exclude aortic and mitral valves.</span>
+<span class="sd">                Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mesh object representing the LV endocardium.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lv_comps</span> <span class="o">=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">LV_ENDOCARDIAL</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">open_valve</span><span class="p">:</span>
+            <span class="n">lv_comps</span> <span class="o">+=</span>  <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">AORTA_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">MITRAL_VALVE</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mesh_component</span><span class="p">(</span><span class="n">lv_comps</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;LV_ENDO&quot;</span><span class="p">,</span> <span class="n">reindex_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.rv_endo">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.rv_endo">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rv_endo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">open_valve</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mesh</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get right ventricular endocardial mesh.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            open_valve: If True, exclude pulmonary and tricuspid valves.</span>
+<span class="sd">                Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mesh object representing the RV endocardium.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rv_comps</span> <span class="o">=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">RV_FREEWALL</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_SEPTUM</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">open_valve</span><span class="p">:</span>
+            <span class="n">rv_comps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">PULMONARY_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">TRICUSPID_VALVE</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mesh_component</span><span class="p">(</span><span class="n">rv_comps</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RV_ENDO&quot;</span><span class="p">,</span> <span class="n">reindex_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.rvlv_epi">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.rvlv_epi">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rvlv_epi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">open_valve</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mesh</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get epicardial mesh for both ventricles.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            open_valve: If True, exclude valve structures. If False, include</span>
+<span class="sd">                aortic, mitral, pulmonary, and tricuspid valves with cuts.</span>
+<span class="sd">                Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mesh object representing RV and LV epicardial surfaces.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comps</span> <span class="o">=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">LV_EPICARDIAL</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_EPICARDIAL</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">open_valve</span><span class="p">:</span>
+            <span class="n">comps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">AORTA_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">AORTA_VALVE_CUT</span><span class="p">,</span>
+                      <span class="n">Components</span><span class="o">.</span><span class="n">MITRAL_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">MITRAL_VALVE_CUT</span><span class="p">,</span>
+                      <span class="n">Components</span><span class="o">.</span><span class="n">PULMONARY_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">PULMONARY_VALVE_CUT</span><span class="p">,</span>
+                      <span class="n">Components</span><span class="o">.</span><span class="n">TRICUSPID_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">TRICUSPID_VALVE_CUT</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mesh_component</span><span class="p">(</span><span class="n">comps</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RVLV_EPI&quot;</span><span class="p">,</span> <span class="n">reindex_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.lv_epi">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.lv_epi">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lv_epi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">open_valve</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mesh</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get left ventricular epicardial mesh.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            open_valve: If True, exclude aortic and mitral valves with cuts.</span>
+<span class="sd">                Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mesh object representing LV epicardium.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comps</span> <span class="o">=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">LV_EPICARDIAL</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_SEPTUM</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">THRU_WALL</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">open_valve</span><span class="p">:</span>
+            <span class="n">comps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">AORTA_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">AORTA_VALVE_CUT</span><span class="p">,</span>
+                      <span class="n">Components</span><span class="o">.</span><span class="n">MITRAL_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">MITRAL_VALVE_CUT</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mesh_component</span><span class="p">(</span><span class="n">comps</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;LV_EPI&quot;</span><span class="p">,</span> <span class="n">reindex_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.rv_epi">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.rv_epi">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rv_epi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">open_valve</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mesh</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get right ventricular epicardial mesh.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            open_valve: If True, exclude pulmonary and tricuspid valves with cuts.</span>
+<span class="sd">                Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mesh object representing RV epicardium.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># [6, 7, 8, 10, 11, 12, 13]</span>
+        <span class="n">comps</span> <span class="o">=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">RV_EPICARDIAL</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_SEPTUM</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">THRU_WALL</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">open_valve</span><span class="p">:</span>
+            <span class="n">comps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">PULMONARY_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">PULMONARY_VALVE_CUT</span><span class="p">,</span>
+                      <span class="n">Components</span><span class="o">.</span><span class="n">TRICUSPID_VALVE</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">TRICUSPID_VALVE_CUT</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mesh_component</span><span class="p">(</span><span class="n">comps</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RV_EPI&quot;</span><span class="p">,</span> <span class="n">reindex_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.lv_endo_volume">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.lv_endo_volume">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lv_endo_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate left ventricular endocardial volume.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            LV endocardial volume in ml. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">lv_endo</span><span class="p">(</span><span class="n">open_valve</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">get_volume</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.rv_endo_volume">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.rv_endo_volume">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rv_endo_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate right ventricular endocardial volume.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RV endocardial volume in ml. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># need to flip normals of the RV septum</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">rv_endo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv_endo</span><span class="p">(</span><span class="n">open_valve</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">rv_endo</span> <span class="o">=</span> <span class="n">flip_elements</span><span class="p">(</span><span class="n">rv_endo</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_SEPTUM</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rv_endo</span><span class="o">.</span><span class="n">get_volume</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.lv_epi_volume">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.lv_epi_volume">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lv_epi_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate left ventricular epicardial volume.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            LV epicardial volume in ml. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="c1"># need to flip normals of the through wall elements</span>
+        <span class="n">lv_epi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lv_epi</span><span class="p">(</span><span class="n">open_valve</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">lv_epi</span> <span class="o">=</span> <span class="n">flip_elements</span><span class="p">(</span><span class="n">lv_epi</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">THRU_WALL</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">lv_epi</span><span class="o">.</span><span class="n">get_volume</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.rv_epi_volume">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.rv_epi_volume">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rv_epi_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate right ventricular epicardial volume.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RV epicardial volume in ml. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="c1"># need to flip normals of the septum</span>
+        <span class="n">rv_epi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv_epi</span><span class="p">(</span><span class="n">open_valve</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">rv_epi</span> <span class="o">=</span> <span class="n">flip_elements</span><span class="p">(</span><span class="n">rv_epi</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_SEPTUM</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rv_epi</span><span class="o">.</span><span class="n">get_volume</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.lv_mass">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.lv_mass">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lv_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass_index</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.05</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate left ventricular mass.</span>
+
+<span class="sd">        Mass is computed as (epicardial_volume - endocardial_volume) * mass_index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mass_index: Scaling factor for mass calculation. Defaults to 1.05 g/ml.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            LV mass in grams. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">lv_endo_vol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lv_endo_volume</span><span class="p">()</span>
+        <span class="n">lv_epi_vol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lv_epi_volume</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">mass_index</span> <span class="o">*</span> <span class="p">(</span><span class="n">lv_epi_vol</span> <span class="o">-</span> <span class="n">lv_endo_vol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.rv_mass">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.rv_mass">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rv_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass_index</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.05</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate right ventricular mass.</span>
+
+<span class="sd">        Mass is computed as (epicardial_volume - endocardial_volume) * mass_index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mass_index: Scaling factor for mass calculation. Defaults to 1.05 g/ml.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RV mass in grams. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">rv_endo_vol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv_endo_volume</span><span class="p">()</span>
+        <span class="n">rv_epi_vol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv_epi_volume</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">mass_index</span> <span class="o">*</span> <span class="p">(</span><span class="n">rv_epi_vol</span> <span class="o">-</span> <span class="n">rv_endo_vol</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="BivMesh.long_arc_length">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.long_arc_length">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">long_arc_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">surface</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute longitudinal arc length along a surface.</span>
+
+<span class="sd">        Used for computing longitudinal strain in BivFrames.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            view: Either &#39;2CH&#39; (two-chamber) or &#39;4CH&#39; (four-chamber).</span>
+<span class="sd">            surface: Either &#39;LV&#39; (left ventricle), &#39;RVS&#39; (RV septum),</span>
+<span class="sd">                or &#39;RVFW&#39; (RV freewall).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Longitudinal arc length in mm. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        
+        <span class="n">vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">ls_points</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">ls_points</span><span class="o">.</span><span class="n">View</span> <span class="o">==</span> <span class="n">view</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ls_points</span><span class="o">.</span><span class="n">Surface</span> <span class="o">==</span> <span class="n">surface</span><span class="p">)]</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="p">:]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">]</span> <span class="o">-</span> <span class="n">vertices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.circ_arc_length">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.circ_arc_length">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">circ_arc_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">slice</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">surface</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute circumferential arc length along a surface.</span>
+
+<span class="sd">        Used for computing circumferential strain in BivFrames.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            slice: Either &#39;APEX&#39;, &#39;MID&#39; (mid-ventricular), or &#39;BASE&#39;.</span>
+<span class="sd">            surface: Either &#39;LV&#39; (left ventricle), &#39;RVS&#39; (RV septum),</span>
+<span class="sd">                or &#39;RVFW&#39; (RV freewall).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Circumferential arc length in mm. Returns NaN if mesh is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        
+        <span class="n">vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs_points</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs_points</span><span class="o">.</span><span class="n">View</span> <span class="o">==</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs_points</span><span class="o">.</span><span class="n">Surface</span> <span class="o">==</span> <span class="n">surface</span><span class="p">)]</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="p">:]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">]</span> <span class="o">-</span> <span class="n">vertices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BivMesh.to_obj">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh.to_obj">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IntEnum</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the BiVMesh object to a Wavefront OBJ file format.</span>
+<span class="sd">        This method writes the mesh geometry and material assignments to a .obj file,</span>
+<span class="sd">        organizing faces by component/material groups.</span>
+
+<span class="sd">        :param output_filename: Path to the output OBJ file.</span>
+<span class="sd">        :type output_filename: Path</span>
+<span class="sd">        :param components: List of component enums to include in the export. </span>
+<span class="sd">                          If None, all available components are included.</span>
+<span class="sd">        :type components: List[IntEnum], optional</span>
+<span class="sd">        :returns: None</span>
+<span class="sd">        :raises IOError: If the output file cannot be written.</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            Vertex indices are automatically converted to 1-based indexing as required </span>
+<span class="sd">            by the OBJ format specification.</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            Components with no associated faces are skipped in the output.</span>
+
+<span class="sd">        :example:</span>
+<span class="sd">            &gt;&gt;&gt; mesh = BiVMesh(...)</span>
+<span class="sd">            &gt;&gt;&gt; mesh.to_obj(&quot;biv.obj&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; mesh.to_obj(&quot;rvlv.obj&quot;, components=[Components.LV_ENDOCARDIAL, Components.RV_FREEWALL, Components.RV_SEPTUM])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">components</span><span class="p">:</span>
+            <span class="n">components</span> <span class="o">=</span> <span class="n">Components</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c1"># Write header</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# Wavefront OBJ file</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# Converted from BiVMesh object</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# Object: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Write vertices</span>
+            <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v </span><span class="si">{</span><span class="n">vertex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">vertex</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">vertex</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Write faces with material assignments</span>
+            <span class="k">for</span> <span class="n">mat</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+                <span class="c1"># Get faces with the mat value</span>
+                <span class="n">elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">materials</span> <span class="o">==</span> <span class="n">mat</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="p">:]</span>
+
+                <span class="k">if</span> <span class="n">elements</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                    
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;o </span><span class="si">{</span><span class="n">mat</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                
+                <span class="c1"># Write face (convert to 1-indexed for OBJ format)</span>
+                <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f </span><span class="si">{</span><span class="n">el</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">el</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">el</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BivFrames &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BivParametric" href="biv_parametric.html" />
+    <link rel="prev" title="BivMesh" href="biv_mesh.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_mesh.html">BivMesh</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BivFrames</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames"><code class="docutils literal notranslate"><span class="pre">BivFrames</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.biv_mesh"><code class="docutils literal notranslate"><span class="pre">BivFrames.biv_mesh</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.frames"><code class="docutils literal notranslate"><span class="pre">BivFrames.frames</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.__init__"><code class="docutils literal notranslate"><span class="pre">BivFrames.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.from_folder"><code class="docutils literal notranslate"><span class="pre">BivFrames.from_folder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.save_as"><code class="docutils literal notranslate"><span class="pre">BivFrames.save_as()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.drop_empty_frames"><code class="docutils literal notranslate"><span class="pre">BivFrames.drop_empty_frames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.make_frames_empty"><code class="docutils literal notranslate"><span class="pre">BivFrames.make_frames_empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.from_control_points"><code class="docutils literal notranslate"><span class="pre">BivFrames.from_control_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.is_normalised_time"><code class="docutils literal notranslate"><span class="pre">BivFrames.is_normalised_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.__getitem__"><code class="docutils literal notranslate"><span class="pre">BivFrames.__getitem__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.lv_endo_volumes"><code class="docutils literal notranslate"><span class="pre">BivFrames.lv_endo_volumes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.volumes"><code class="docutils literal notranslate"><span class="pre">BivFrames.volumes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.gls"><code class="docutils literal notranslate"><span class="pre">BivFrames.gls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_frames.BivFrames.gcs"><code class="docutils literal notranslate"><span class="pre">BivFrames.gcs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="biv_parametric.html">BivParametric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_motion_ui.html">BivMotionUI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BivFrames</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/biv_frames.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bivframes">
+<h1>BivFrames<a class="headerlink" href="#bivframes" title="Link to this heading"></a></h1>
+<p>Container for multiple biventricular mesh frames.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biv_lite.biv_frames.</span></span><span class="sig-name descname"><span class="pre">BivFrames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">biv_mesh_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh" title="biv_lite.biv_mesh.BivMesh"><span class="pre">BivMesh</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a></p>
+<p>Represents a collection of biventricular meshes across multiple frames. This class is a specialized
+sequence of BiV meshes, enabling operations and computations over a series of time frames of the
+heart model.</p>
+<p>The purpose of this class is to group and process multiple biventricular meshes (BiVMeshes) representing
+different time frames from cardiac imaging data. It provides methods for operations such as loading meshes
+from a directory, saving them, modifying frames, and calculating geometric or physiological properties like
+volumes and strain.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.biv_mesh">
+<span class="sig-name descname"><span class="pre">biv_mesh</span></span><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.biv_mesh" title="Link to this definition"></a></dt>
+<dd><p>List of biventricular meshes representing heart models per frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh" title="biv_lite.biv_mesh.BivMesh">BivMesh</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.frames">
+<span class="sig-name descname"><span class="pre">frames</span></span><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.frames" title="Link to this definition"></a></dt>
+<dd><p>List of frame identifiers corresponding to the BiVMeshes. Must match the number
+of biv_mesh elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">biv_mesh_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh" title="biv_lite.biv_mesh.BivMesh"><span class="pre">BivMesh</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.__init__" title="Link to this definition"></a></dt>
+<dd><p>A constructor for initializing an instance of the class with a list of BivMesh objects and
+optional frames. It populates metadata and ensures consistency between the number of
+frames and the biv_mesh list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>biv_mesh_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh" title="biv_lite.biv_mesh.BivMesh"><em>BivMesh</em></a><em>]</em>) – A list of BivMesh objects representing the meshes
+to be associated with the instance.</p></li>
+<li><p><strong>frames</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>]</em><em>]</em>) – A list of integer frame indices corresponding to the
+BivMesh objects. If not provided, frames is initialized as a range equal to
+the length of <cite>biv_mesh_list</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If the number of frames provided does not match the number of
+    items in <cite>biv_mesh_list</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.from_folder">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'*_model_frame_*.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'_(\\d+).txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.from_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.from_folder" title="Link to this definition"></a></dt>
+<dd><p>Parses text files matching a specific pattern within a folder and constructs a new BivFrames
+object based on extracted frame identifiers.</p>
+<p>This method scans a given folder for files matching the specified pattern. The file names
+are expected to have frame identifiers, which are extracted using the provided regular
+expression. The files are sorted in ascending order of the extracted frame numbers, then
+used to construct BivMesh objects. These objects are subsequently used to create and
+return a BivFrames instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> (<em>Path</em><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the directory containing the text files.</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – File name pattern to search for. Defaults to “<em>_Model_Frame_</em>.txt”.</p></li>
+<li><p><strong>frame_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Regular expression used to extract frame numbers from file names.</p></li>
+<li><p><strong>max_frames</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Maximum number of frames. Useful if you know there should be N number of frames but missing files at the end of the cycles.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A new instance of BivFrames containing BivMesh objects created from</dt><dd><p>the matched files.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames">BivFrames</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the frame numbers cannot be extracted or are not in the expected format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.save_as">
+<span class="sig-name descname"><span class="pre">save_as</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.save_as"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.save_as" title="Link to this definition"></a></dt>
+<dd><p>Saves the current state of the object as a set of files in the specified folder with
+the given model name. The files are created in a format specific to fitted models,
+where each file represents a frame of the model. The method ensures that the target
+folder is created if it does not already exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_name</strong> – The base name of the output files to be saved. Each file will have
+a unique suffix associated with its frame index.</p></li>
+<li><p><strong>new_folder</strong> – The path to the folder where the files will be saved. If the folder
+does not exist, it will be created.</p></li>
+<li><p><strong>overwrite</strong> – Ignore existing files if the new folder exists</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.drop_empty_frames">
+<span class="sig-name descname"><span class="pre">drop_empty_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames"><span class="pre">BivFrames</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.drop_empty_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.drop_empty_frames" title="Link to this definition"></a></dt>
+<dd><p>Filters out empty frames from the object by checking the <cite>biv_mesh</cite> attribute.
+It can update the instance in-place or return a new instance with the filtered frames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in_place</strong> – A boolean value. If True, modifies the instance in-place.
+If False, returns a new instance with non-empty frames.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A new instance with non-empty frames if <cite>in_place</cite> is False.</dt><dd><p>Otherwise, returns None.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames">BivFrames</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.make_frames_empty">
+<span class="sig-name descname"><span class="pre">make_frames_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.make_frames_empty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.make_frames_empty" title="Link to this definition"></a></dt>
+<dd><p>Updates the control points of selected frames to empty arrays. This function takes
+a list or array of frame indices and sets their corresponding control points in the
+<cite>biv_mesh</cite> attribute to an empty NumPy array with a shape of (0, 3).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>i_frames</strong> – List or array of integers representing the indices of frames
+within the <cite>biv_mesh</cite> attribute for which the control points will be
+reset.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.from_control_points">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_control_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.from_control_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.from_control_points" title="Link to this definition"></a></dt>
+<dd><p>Creates an instance of <cite>BivFrames</cite> object from the provided control points. The control points
+are expected to be a 3D array where each frame of the array represents a single 3D BivMesh
+configuration with a specific name. The function validates the shape of the input to ensure
+it adheres to specified constraints. If validation passes, it constructs a list of
+<cite>BivMesh</cite> objects for each frame and uses them to create the target <cite>BivFrames</cite> composite object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>control_points</strong> (<em>np.array</em>) – A 3D NumPy array with shape (388, 3, nframes), where nframes is
+the number of frames. Each frame is a 3-dimensional representation of the control
+points utilized for creating BivMesh instances.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <cite>BivFrames</cite> object containing a list of <cite>BivMesh</cite> objects, one for each frame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames">BivFrames</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If the number of control points is not 388.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If the dimension of control points is not 3.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If the number of frames is less than or equal to 0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.is_normalised_time">
+<span class="sig-name descname"><span class="pre">is_normalised_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.is_normalised_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.is_normalised_time" title="Link to this definition"></a></dt>
+<dd><p>Checks if all time values in ‘frames’ are normalized.</p>
+<p>A normalized time value means it falls within the range [0, 1). This method
+iterates through the ‘frames’ attribute and ensures that all values meet
+this criterion. The ‘frames’ attribute should be iterable, containing
+numeric values for comparison. This function does not modify the state of
+the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if all time values in ‘frames’ are normalized, False
+otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.__getitem__" title="Link to this definition"></a></dt>
+<dd><p>Retrieves an item or slice from the internal data structure.</p>
+<p>Retrieves a BivFrame or a slice of BivFrames from the internal biv_mesh
+data, depending on whether the provided index is a single element or
+a slice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item</strong> – An index or slice specifying the position of the item(s) to
+retrieve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A single BivMesh object if the index is a singular element.
+BivFrames: A BivFrames object containing a slice of BivMesh objects</p>
+<blockquote>
+<div><p>and frames if the index is a slice.</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh" title="biv_lite.biv_mesh.BivMesh">BivMesh</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.lv_endo_volumes">
+<span class="sig-name descname"><span class="pre">lv_endo_volumes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.lv_endo_volumes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.lv_endo_volumes" title="Link to this definition"></a></dt>
+<dd><p>Calculates left ventricular (LV) endocardial volumes for each biventricle mesh.</p>
+<p>This function iterates through a list of biventricle meshes and calculates
+the LV endocardial volume for each individual mesh. The result is a list of
+volumes, where each volume corresponds to the LV endocardial volume of a mesh
+in the <cite>biv_mesh</cite> list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing the LV endocardial volumes for each
+biventricle mesh in the <cite>biv_mesh</cite> attribute.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.volumes">
+<span class="sig-name descname"><span class="pre">volumes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.volumes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.volumes" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns volumes and masses for different regions of a bi-ventricular
+mesh. This includes endocardial and epicardial volumes for the left and right
+ventricles, as well as their respective masses scaled by an optional mass index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mass_index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – A scaling factor for computing the masses from the
+differences in epicardial and endocardial volumes. Default is 1.05.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the calculated structures:</dt><dd><p>’LV_ENDO’: List of left ventricular endocardial volumes.
+‘LV_EPI’: List of left ventricular epicardial volumes.
+‘RV_ENDO’: List of right ventricular endocardial volumes.
+‘RV_EPI’: List of right ventricular epicardial volumes.
+‘LVM’: List of left ventricular masses scaled by the mass index.
+‘RVM’: List of right ventricular masses scaled by the mass index.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.gls">
+<span class="sig-name descname"><span class="pre">gls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ed_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.gls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.gls" title="Link to this definition"></a></dt>
+<dd><p>Compute global longitudinal strain values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_frames.BivFrames.gcs">
+<span class="sig-name descname"><span class="pre">gcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ed_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_frames.html#BivFrames.gcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_frames.BivFrames.gcs" title="Link to this definition"></a></dt>
+<dd><p>Compute global circumferential strain values.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="biv_mesh.html" class="btn btn-neutral float-left" title="BivMesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="biv_parametric.html" class="btn btn-neutral float-right" title="BivParametric" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
