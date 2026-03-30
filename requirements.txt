@@ -2,6 +2,6 @@ pytest>=8.4.0           # unit tests
 loguru>=0.7.3           # simple logging no extra sweats
 typer[all]>=0.16.0      # command-line interface
 scipy>=1.14.1           # scientific library
-pandas>=2.3.0           # dataframe manipulation
+polars                  # dataframe manipulation
 jupyterlab>=4.3.5       # notebooks
 pyvista[all]>=0.45.2    # easy visualisation
