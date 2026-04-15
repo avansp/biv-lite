@@ -49,3 +49,7 @@
 ### Features
 * Added export functions to OBJ
 * Added documentation to gh-pages
+
+## v0.3.0 (30/03/2026)
+
+* Replaced pandas to polars due to pandas' heavy dependencies to numpy

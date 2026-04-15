@@ -1,8 +1,8 @@
 import pytest
 from pathlib import Path
-import pandas as pd
 import numpy as np
 from biv_lite import BivFrames
+import polars as pl
 
 
 @pytest.fixture(scope="function")
@@ -31,8 +31,7 @@ def sample_volumes() -> dict:
         starting from 0.
     """
     vol_file = Path("tests") / "sample_frames" / "lvrv_volumes.csv"
-    df = pd.read_csv(vol_file)
-    df = df[df['name'] == "sample_frames"].sort_values(by='frame')
+    df = pl.read_csv(vol_file).sort(by="frame", descending=False)
 
     assert np.array_equal(df['frame'].to_numpy(), np.arange(df.shape[0]))
 
@@ -85,8 +84,7 @@ def sample_gls() -> dict:
         AssertionError: If frame numbers are not sequential starting from 0.
     """
     gls_file = Path("tests") / "sample_frames" / "gls.csv"
-    df = pd.read_csv(gls_file)
-    df = df[df['name'] == "sample_frames"].sort_values(by='frame')
+    df = pl.read_csv(gls_file).sort(by="frame", descending=False)
 
     assert np.array_equal(df['frame'].to_numpy(), np.arange(df.shape[0]))
 
@@ -114,8 +112,7 @@ def sample_gcs() -> dict:
     """
 
     gcs_file = Path("tests") / "sample_frames" / "gcs.csv"
-    df = pd.read_csv(gcs_file)
-    df = df[df['name'] == "sample_frames"].sort_values(by='frame')
+    df = pl.read_csv(gcs_file).sort(by="frame", descending=False)
 
     assert np.array_equal(df['frame'].to_numpy(), np.arange(df.shape[0]))
 

@@ -1,6 +1,5 @@
 from biv_lite import BivFrames
 import numpy as np
-import pandas as pd
 
 
 def test_gls(sample_biv: BivFrames, sample_gls: dict):

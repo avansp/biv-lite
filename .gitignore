@@ -211,5 +211,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# visual code
+.vscode
+
 # anything marked by nogit
 nogit*
