@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>biv_lite.meshing.mesh &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="biv_lite.meshing.spike_detector" href="biv_lite.meshing.spike_detector.html" />
+    <link rel="prev" title="biv_lite.meshing.imputation" href="biv_lite.meshing.imputation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="biv_lite.html">biv_lite</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="biv_lite.app.html">biv_lite.app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="biv_lite.biv_frames.html">biv_lite.biv_frames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="biv_lite.biv_mesh.html">biv_lite.biv_mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="biv_lite.biv_parametric.html">biv_lite.biv_parametric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="biv_lite.main.html">biv_lite.main</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="biv_lite.meshing.html">biv_lite.meshing</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="biv_lite.meshing.biv_motion_ui.html">biv_lite.meshing.biv_motion_ui</a></li>
+<li class="toctree-l4"><a class="reference internal" href="biv_lite.meshing.geometric_tools.html">biv_lite.meshing.geometric_tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="biv_lite.meshing.imputation.html">biv_lite.meshing.imputation</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">biv_lite.meshing.mesh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="biv_lite.meshing.spike_detector.html">biv_lite.meshing.spike_detector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="biv_lite.meshing.utils.html">biv_lite.meshing.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="biv_lite.meshing.vis.html">biv_lite.meshing.vis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../biv_mesh.html">BivMesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../biv_frames.html">BivFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../biv_parametric.html">BivParametric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../biv_motion_ui.html">BivMotionUI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Modules Overview</a></li>
+          <li class="breadcrumb-item"><a href="biv_lite.html">biv_lite</a></li>
+          <li class="breadcrumb-item"><a href="biv_lite.meshing.html">biv_lite.meshing</a></li>
+      <li class="breadcrumb-item active">biv_lite.meshing.mesh</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/generated/biv_lite.meshing.mesh.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-biv_lite.meshing.mesh">
+<span id="biv-lite-meshing-mesh"></span><h1>biv_lite.meshing.mesh<a class="headerlink" href="#module-biv_lite.meshing.mesh" title="Link to this heading"></a></h1>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#biv_lite.meshing.mesh.Mesh" title="biv_lite.meshing.mesh.Mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mesh</span></code></a>(mesh_label[, node_file_name, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biv_lite.meshing.mesh.</span></span><span class="sig-name descname"><span class="pre">Mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">nb_nodes</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Number</span> <span class="pre">of</span> <span class="pre">control</span> <span class="pre">nodes.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">nb_elements</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Number</span> <span class="pre">of</span> <span class="pre">elements.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">label</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">mesh</span> <span class="pre">label</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">nodes</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Array</span> <span class="pre">of</span> <span class="pre">x,y,z</span> <span class="pre">coordinates</span> <span class="pre">of</span> <span class="pre">nodes).</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">elements</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Elements</span> <span class="pre">connectivities</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_file_name</strong> – str giving the file name where to read mesh node</p></li>
+<li><p><strong>element_file_name</strong> – str giving the file name where to read element connectivity</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.swap_elem_nodes">
+<span class="sig-name descname"><span class="pre">swap_elem_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.swap_elem_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.swap_elem_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.set_elements">
+<span class="sig-name descname"><span class="pre">set_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_elem_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.set_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.set_elements" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.set_nodes">
+<span class="sig-name descname"><span class="pre">set_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_nodes_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.set_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.set_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.set_materials">
+<span class="sig-name descname"><span class="pre">set_materials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elem_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.set_materials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.set_materials" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_materials">
+<span class="sig-name descname"><span class="pre">get_materials</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_materials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_materials" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_mesh_component">
+<span class="sig-name descname"><span class="pre">get_mesh_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">materials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reindex_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_mesh_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_mesh_component" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_surface">
+<span class="sig-name descname"><span class="pre">get_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elem_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_elem_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'triangle'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_surface" title="Link to this definition"></a></dt>
+<dd><p>Extract mesh surface from a 3D hex surface giving the xi position :
+:param elem_list: subgroup of elements to extract the surface from
+:param xi: element face to be extracted (xi1, xi2, xi3 or all)
+:param output_elem_type: type of output face (‘triangle’ or ‘quadrilateral’)</p>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_lines">
+<span class="sig-name descname"><span class="pre">get_lines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_lines" title="Link to this definition"></a></dt>
+<dd><p>Return array of mesh edges as shape nx2
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_nodes">
+<span class="sig-name descname"><span class="pre">get_nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.export_pickle">
+<span class="sig-name descname"><span class="pre">export_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.export_pickle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.export_pickle" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.subdivide_linear_interpolation_hex">
+<span class="sig-name descname"><span class="pre">subdivide_linear_interpolation_hex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.subdivide_linear_interpolation_hex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.subdivide_linear_interpolation_hex" title="Link to this definition"></a></dt>
+<dd><p>Perform interpolative subdivision for a 3D hex mesh
+:param iterations: int given the numer of iterations
+:return: new_mesh of type mesh</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.update_hex_node_position">
+<span class="sig-name descname"><span class="pre">update_hex_node_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_node_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_elem_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.update_hex_node_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.update_hex_node_position" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_nodes_position</strong> – nX3 array with node position</p></li>
+<li><p><strong>hex_mesh</strong> – mesh object, containing elements and nodes position of a
+quad/hex mesh (for subdivision model, the hex_mesh corresponds
+to the initial control mesh )</p></li>
+<li><p><strong>xi_position</strong> – nx3 array, xi_position of each new node (as
+exported from BiVFitting mesh)</p></li>
+<li><p><strong>elem_points</strong> – n array, element number in the quad mesh for each node of
+the tetrahedral mesh</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mesh object with updated nodes position</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>new_hex_mesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.export_nodes_cont6">
+<span class="sig-name descname"><span class="pre">export_nodes_cont6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.export_nodes_cont6"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.export_nodes_cont6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.export_elements_cont6">
+<span class="sig-name descname"><span class="pre">export_elements_cont6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elem_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.export_elements_cont6"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.export_elements_cont6" title="Link to this definition"></a></dt>
+<dd><p>Write mesh in continuity format
+:param filename: output file name
+:param elem_type: export element type : ‘2D’ for quadrilateral or</p>
+<blockquote>
+<div><p>‘3D’ for hexahedron)</p>
+</div></blockquote>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.export_mesh_cont6">
+<span class="sig-name descname"><span class="pre">export_mesh_cont6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elem_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2D'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.export_mesh_cont6"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.export_mesh_cont6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.export_nodes_to_cont6_data">
+<span class="sig-name descname"><span class="pre">export_nodes_to_cont6_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.export_nodes_to_cont6_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.export_nodes_to_cont6_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_volume">
+<span class="sig-name descname"><span class="pre">get_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_volume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_normals">
+<span class="sig-name descname"><span class="pre">get_normals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_normals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_normals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_curvature">
+<span class="sig-name descname"><span class="pre">get_curvature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_curvature" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.crop_mesh">
+<span class="sig-name descname"><span class="pre">crop_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reidex_verts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.crop_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.crop_mesh" title="Link to this definition"></a></dt>
+<dd><p>Crop a closed mesh using an plane defined by a point and a normal
+:param p0: array(3) point o the plane
+:param normal: array(3) vector defining the plane normal
+:return: new closed mesh</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.crop_by_landmarks">
+<span class="sig-name descname"><span class="pre">crop_by_landmarks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landmarks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reidex_verts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.crop_by_landmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.crop_by_landmarks" title="Link to this definition"></a></dt>
+<dd><p>Crop a closed mesh be using the distance to the given landmarks to compute the
+components
+:param landmarks: (nx3) n landmarks
+:return: list of n meshes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.break_mesh">
+<span class="sig-name descname"><span class="pre">break_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reidex_verts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.break_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.break_mesh" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>components</strong> – list of m  (nx3) arrays giving the subsets of faces for each new component,
+m is the number of components</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of new closed meshes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.meshing.mesh.Mesh.get_intersection_with_plane">
+<span class="sig-name descname"><span class="pre">get_intersection_with_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/biv_lite/meshing/mesh.html#Mesh.get_intersection_with_plane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.meshing.mesh.Mesh.get_intersection_with_plane" title="Link to this definition"></a></dt>
+<dd><p>Calculate intersection points between a plane with the mesh
+P = L.GetIntersectiontWithPlane(P0,N0,’opt1’,val1,…)
+[P,Fidx] = L.GetIntersectionWithPlane(P0,N0,’opt1’,val1,…)</p>
+<p>The plane is defined by the normal N0 and a point P0 on the plane.</p>
+<ul class="simple">
+<li><p>P{i} are Nx3 coordinate points on surface i that intersect with the
+plane.</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="biv_lite.meshing.imputation.html" class="btn btn-neutral float-left" title="biv_lite.meshing.imputation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="biv_lite.meshing.spike_detector.html" class="btn btn-neutral float-right" title="biv_lite.meshing.spike_detector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

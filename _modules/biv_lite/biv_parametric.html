@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>biv_lite.biv_parametric &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">Modules Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_mesh.html">BivMesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_frames.html">BivFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_parametric.html">BivParametric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/biv_motion_ui.html">BivMotionUI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">biv_lite.biv_parametric</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for biv_lite.biv_parametric</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">biv_lite</span><span class="w"> </span><span class="kn">import</span> <span class="n">BivFrames</span><span class="p">,</span> <span class="n">BivMesh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_splprep</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+
+
+<div class="viewcode-block" id="BivParametric">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_parametric.html#biv_lite.biv_parametric.BivParametric">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BivParametric</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a parametric model for interpolating and generating a smooth representation</span>
+<span class="sd">    of `BivFrames` over a normalized time frame.</span>
+
+<span class="sd">    The class utilizes spline interpolation techniques to generate either individual</span>
+<span class="sd">    `BivMesh` objects or a sequence of `BivMesh` objects encapsulated in a `BivFrames`</span>
+<span class="sd">    object. Smoothness and order of interpolation can be customized during initialization.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        biv_frames (BivFrames): A deep copy of the input `BivFrames`, representing the control</span>
+<span class="sd">            points for the parametric model. The normalized time frames are adjusted based on</span>
+<span class="sd">            the input or auto-generated values.</span>
+<span class="sd">        funcs_int (list): List of spline interpolation functions for generating control points</span>
+<span class="sd">            based on the normalized time parameter. Each function corresponds to a control</span>
+<span class="sd">            point across frames.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BivParametric.__init__">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_parametric.html#biv_lite.biv_parametric.BivParametric.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">biv_frames</span><span class="p">:</span> <span class="n">BivFrames</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">smoothing</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a class instance with a set of BivFrames and generates their parametric</span>
+<span class="sd">        representation over a normalized time frame. The parametric representation ensures smooth</span>
+<span class="sd">        interpolation between the control points of the frames, with customizable smoothing and</span>
+<span class="sd">        order.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            biv_frames (BivFrames): A sequence of BivFrames representing the control points to</span>
+<span class="sd">                interpolate. Must contain more than three frames.</span>
+<span class="sd">            t (list[float], optional): A monotonically increasing normalized time list with values</span>
+<span class="sd">                0.0 &lt;= t &lt; 1.0, corresponding to the BivFrames. Length of `t` must match the length</span>
+<span class="sd">                of `biv_frames`. If not provided, will be auto-generated.</span>
+<span class="sd">            k (int, optional): The degree of the spline functions used for interpolation (order of the curves).</span>
+<span class="sd">            smoothing (float, optional): Smoothness factor for the interpolation. A higher value</span>
+<span class="sd">                decreases fidelity to the control points.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If the length of `biv_frames` is less than or equal to 3.</span>
+<span class="sd">            AssertionError: If the length of `t` does not match the number of `biv_frames`.</span>
+<span class="sd">            AssertionError: If `t` is not a monotonically increasing sequence.</span>
+<span class="sd">            AssertionError: If `t` contains values outside the range [0.0, 1.0).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">biv_frames</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Not enough frames to create parametric BivFrames&quot;</span>
+
+        <span class="c1"># create the normalised time frame</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">biv_frames</span><span class="p">),</span> <span class="s2">&quot;Invalid length between biv_frames and t&quot;</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ti</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">t</span><span class="p">),</span> <span class="s2">&quot;Values of t must 0.0 &lt;= t &lt; 1.0&quot;</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">ti</span> <span class="o">&lt;</span> <span class="n">tj</span> <span class="k">for</span> <span class="n">ti</span><span class="p">,</span> <span class="n">tj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">:])),</span> <span class="s2">&quot;Values of t is not monotically increasing&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="o">.</span><span class="n">frames</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">biv_frames</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="o">.</span><span class="n">frames</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="o">.</span><span class="n">is_normalised_time</span><span class="p">()</span>
+
+        <span class="c1"># missing values create problem during interpolation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="o">.</span><span class="n">drop_empty_frames</span><span class="p">(</span><span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># create time axis</span>
+        <span class="n">tn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="o">.</span><span class="n">frames</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">tn</span><span class="p">[</span><span class="o">-</span><span class="n">k</span><span class="p">:]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">tn</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">tn</span><span class="p">[:</span><span class="n">k</span><span class="p">]))</span>
+        <span class="c1"># ts = np.concat((self.biv_frames.frames[-k:] - 1.0, self.biv_frames.frames, 1.0 + self.biv_frames.frames[:k]))</span>
+
+        <span class="c1"># create interpolation functions for each control point</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">funcs_int</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_ctrl_pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">control_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_ctrl_pts</span><span class="p">):</span>
+            <span class="c1"># collect control points</span>
+            <span class="n">ctrl_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">control_points</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">biv_frames</span><span class="p">))])</span>
+
+            <span class="c1"># prepend and append k samples</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">ctrl_pts</span><span class="p">[</span><span class="o">-</span><span class="n">k</span><span class="p">:],</span> <span class="n">ctrl_pts</span><span class="p">,</span> <span class="n">ctrl_pts</span><span class="p">[:</span><span class="n">k</span><span class="p">])))</span>
+
+            <span class="c1"># create interpolation function</span>
+            <span class="n">f_int</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span>  <span class="n">make_splprep</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">ts</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">smoothing</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">funcs_int</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f_int</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BivParametric.__call__">
+<a class="viewcode-back" href="../../api/generated/biv_lite.biv_parametric.html#biv_lite.biv_parametric.BivParametric.__call__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callable object that generates either a `BivMesh` or a `BivFrames` object</span>
+<span class="sd">        from the provided time parameter `t`. This functionality is contingent on</span>
+<span class="sd">        whether `t` is a scalar or an array.</span>
+
+<span class="sd">        If `t` is a scalar, the method validates that it is in the range [0, 1],</span>
+<span class="sd">        then generates a `BivMesh` by applying a sequence of functions stored</span>
+<span class="sd">        in `self.funcs_int` to `t`.</span>
+
+<span class="sd">        If `t` is an array, the method verifies all values are within [0, 1],</span>
+<span class="sd">        then generates a `BivFrames` object. For each time point in the array,</span>
+<span class="sd">        it creates a `BivMesh` by applying the functions in `self.funcs_int`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            t (Union[float, np.ndarray]): Time parameter to generate the mesh or</span>
+<span class="sd">                frame objects. For single frames, pass a scalar value in the</span>
+<span class="sd">                range [0, 1]. For multiple frames, pass a NumPy array where each</span>
+<span class="sd">                element represents a valid time point in the range [0, 1].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[BivMesh, BivFrames]: A single `BivMesh` if `t` is a scalar, or</span>
+<span class="sd">            a `BivFrames` object containing multiple `BivMesh` instances if `t`</span>
+<span class="sd">            is an array.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If `t` (or any of its elements when it is an array)</span>
+<span class="sd">            is not in the valid range [0, 1].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="c1"># this should return a BivMesh</span>
+            <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Invalid time frame </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="n">BivMesh</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">funcs_int</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># this should return a BivFrames</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">)),</span> <span class="sa">f</span><span class="s2">&quot;Invalid time frame </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">biv_mesh_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">funcs_int</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">BivFrames</span><span class="p">([</span><span class="n">BivMesh</span><span class="p">(</span><span class="n">biv_mesh_list</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">biv_mesh_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span> <span class="n">frames</span><span class="o">=</span><span class="n">t</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

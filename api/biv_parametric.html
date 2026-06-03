@@ -1,0 +1,237 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BivParametric &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BivMotionUI" href="biv_motion_ui.html" />
+    <link rel="prev" title="BivFrames" href="biv_frames.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_mesh.html">BivMesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_frames.html">BivFrames</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BivParametric</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#biv_lite.biv_parametric.BivParametric"><code class="docutils literal notranslate"><span class="pre">BivParametric</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_parametric.BivParametric.biv_frames"><code class="docutils literal notranslate"><span class="pre">BivParametric.biv_frames</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_parametric.BivParametric.funcs_int"><code class="docutils literal notranslate"><span class="pre">BivParametric.funcs_int</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_parametric.BivParametric.__init__"><code class="docutils literal notranslate"><span class="pre">BivParametric.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_parametric.BivParametric.__call__"><code class="docutils literal notranslate"><span class="pre">BivParametric.__call__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="biv_motion_ui.html">BivMotionUI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BivParametric</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/biv_parametric.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bivparametric">
+<h1>BivParametric<a class="headerlink" href="#bivparametric" title="Link to this heading"></a></h1>
+<p>Parametric interpolation for smooth cardiac motion.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biv_lite.biv_parametric.BivParametric">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biv_lite.biv_parametric.</span></span><span class="sig-name descname"><span class="pre">BivParametric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">biv_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames"><span class="pre">BivFrames</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_parametric.html#BivParametric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_parametric.BivParametric" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Represents a parametric model for interpolating and generating a smooth representation
+of <cite>BivFrames</cite> over a normalized time frame.</p>
+<p>The class utilizes spline interpolation techniques to generate either individual
+<cite>BivMesh</cite> objects or a sequence of <cite>BivMesh</cite> objects encapsulated in a <cite>BivFrames</cite>
+object. Smoothness and order of interpolation can be customized during initialization.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_parametric.BivParametric.biv_frames">
+<span class="sig-name descname"><span class="pre">biv_frames</span></span><a class="headerlink" href="#biv_lite.biv_parametric.BivParametric.biv_frames" title="Link to this definition"></a></dt>
+<dd><p>A deep copy of the input <cite>BivFrames</cite>, representing the control
+points for the parametric model. The normalized time frames are adjusted based on
+the input or auto-generated values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames">BivFrames</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_parametric.BivParametric.funcs_int">
+<span class="sig-name descname"><span class="pre">funcs_int</span></span><a class="headerlink" href="#biv_lite.biv_parametric.BivParametric.funcs_int" title="Link to this definition"></a></dt>
+<dd><p>List of spline interpolation functions for generating control points
+based on the normalized time parameter. Each function corresponds to a control
+point across frames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_parametric.BivParametric.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">biv_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames"><span class="pre">BivFrames</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_parametric.html#BivParametric.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_parametric.BivParametric.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a class instance with a set of BivFrames and generates their parametric
+representation over a normalized time frame. The parametric representation ensures smooth
+interpolation between the control points of the frames, with customizable smoothing and
+order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>biv_frames</strong> (<a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames"><em>BivFrames</em></a>) – A sequence of BivFrames representing the control points to
+interpolate. Must contain more than three frames.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>]</em><em>, </em><em>optional</em>) – A monotonically increasing normalized time list with values
+0.0 &lt;= t &lt; 1.0, corresponding to the BivFrames. Length of <cite>t</cite> must match the length
+of <cite>biv_frames</cite>. If not provided, will be auto-generated.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The degree of the spline functions used for interpolation (order of the curves).</p></li>
+<li><p><strong>smoothing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>, </em><em>optional</em>) – Smoothness factor for the interpolation. A higher value
+decreases fidelity to the control points.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If the length of <cite>biv_frames</cite> is less than or equal to 3.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If the length of <cite>t</cite> does not match the number of <cite>biv_frames</cite>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If <cite>t</cite> is not a monotonically increasing sequence.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If <cite>t</cite> contains values outside the range [0.0, 1.0).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_parametric.BivParametric.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_parametric.html#BivParametric.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_parametric.BivParametric.__call__" title="Link to this definition"></a></dt>
+<dd><p>Callable object that generates either a <cite>BivMesh</cite> or a <cite>BivFrames</cite> object
+from the provided time parameter <cite>t</cite>. This functionality is contingent on
+whether <cite>t</cite> is a scalar or an array.</p>
+<p>If <cite>t</cite> is a scalar, the method validates that it is in the range [0, 1],
+then generates a <cite>BivMesh</cite> by applying a sequence of functions stored
+in <cite>self.funcs_int</cite> to <cite>t</cite>.</p>
+<p>If <cite>t</cite> is an array, the method verifies all values are within [0, 1],
+then generates a <cite>BivFrames</cite> object. For each time point in the array,
+it creates a <cite>BivMesh</cite> by applying the functions in <cite>self.funcs_int</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>, </em><em>np.ndarray</em><em>]</em>) – Time parameter to generate the mesh or
+frame objects. For single frames, pass a scalar value in the
+range [0, 1]. For multiple frames, pass a NumPy array where each
+element represents a valid time point in the range [0, 1].</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single <cite>BivMesh</cite> if <cite>t</cite> is a scalar, or
+a <cite>BivFrames</cite> object containing multiple <cite>BivMesh</cite> instances if <cite>t</cite>
+is an array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[<a class="reference internal" href="generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh" title="biv_lite.biv_mesh.BivMesh">BivMesh</a>, <a class="reference internal" href="generated/biv_lite.biv_frames.html#biv_lite.biv_frames.BivFrames" title="biv_lite.biv_frames.BivFrames">BivFrames</a>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If <cite>t</cite> (or any of its elements when it is an array)</p></li>
+<li><p><strong>is not in the valid range</strong><strong> [</strong><strong>0</strong><strong>, </strong><strong>1</strong><strong>]</strong><strong>.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="biv_frames.html" class="btn btn-neutral float-left" title="BivFrames" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="biv_motion_ui.html" class="btn btn-neutral float-right" title="BivMotionUI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

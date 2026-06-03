@@ -1,0 +1,656 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BivMesh &mdash; biv-lite 0.2.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BivFrames" href="biv_frames.html" />
+    <link rel="prev" title="biv_lite.meshing.vis" href="generated/biv_lite.meshing.vis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            biv-lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BivMesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh"><code class="docutils literal notranslate"><span class="pre">BivMesh</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.DEFAULT_MODEL_FOLDER"><code class="docutils literal notranslate"><span class="pre">BivMesh.DEFAULT_MODEL_FOLDER</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.control_points"><code class="docutils literal notranslate"><span class="pre">BivMesh.control_points</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.model_folder"><code class="docutils literal notranslate"><span class="pre">BivMesh.model_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.subdiv_matrix"><code class="docutils literal notranslate"><span class="pre">BivMesh.subdiv_matrix</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.ls_points"><code class="docutils literal notranslate"><span class="pre">BivMesh.ls_points</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.cs_points"><code class="docutils literal notranslate"><span class="pre">BivMesh.cs_points</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">BivMesh.DEFAULT_MODEL_FOLDER</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.__init__"><code class="docutils literal notranslate"><span class="pre">BivMesh.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.is_empty"><code class="docutils literal notranslate"><span class="pre">BivMesh.is_empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.load_template_model"><code class="docutils literal notranslate"><span class="pre">BivMesh.load_template_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.from_fitted_model"><code class="docutils literal notranslate"><span class="pre">BivMesh.from_fitted_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.to_fitted_model"><code class="docutils literal notranslate"><span class="pre">BivMesh.to_fitted_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.lv_endo"><code class="docutils literal notranslate"><span class="pre">BivMesh.lv_endo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.rv_endo"><code class="docutils literal notranslate"><span class="pre">BivMesh.rv_endo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.rvlv_epi"><code class="docutils literal notranslate"><span class="pre">BivMesh.rvlv_epi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.lv_epi"><code class="docutils literal notranslate"><span class="pre">BivMesh.lv_epi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.rv_epi"><code class="docutils literal notranslate"><span class="pre">BivMesh.rv_epi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.lv_endo_volume"><code class="docutils literal notranslate"><span class="pre">BivMesh.lv_endo_volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.rv_endo_volume"><code class="docutils literal notranslate"><span class="pre">BivMesh.rv_endo_volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.lv_epi_volume"><code class="docutils literal notranslate"><span class="pre">BivMesh.lv_epi_volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.rv_epi_volume"><code class="docutils literal notranslate"><span class="pre">BivMesh.rv_epi_volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.lv_mass"><code class="docutils literal notranslate"><span class="pre">BivMesh.lv_mass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.rv_mass"><code class="docutils literal notranslate"><span class="pre">BivMesh.rv_mass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.long_arc_length"><code class="docutils literal notranslate"><span class="pre">BivMesh.long_arc_length()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.circ_arc_length"><code class="docutils literal notranslate"><span class="pre">BivMesh.circ_arc_length()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.BivMesh.to_obj"><code class="docutils literal notranslate"><span class="pre">BivMesh.to_obj()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#biv_lite.biv_mesh.Components"><code class="docutils literal notranslate"><span class="pre">Components</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.AORTA_VALVE"><code class="docutils literal notranslate"><span class="pre">Components.AORTA_VALVE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.AORTA_VALVE_CUT"><code class="docutils literal notranslate"><span class="pre">Components.AORTA_VALVE_CUT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.LV_ENDOCARDIAL"><code class="docutils literal notranslate"><span class="pre">Components.LV_ENDOCARDIAL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.LV_EPICARDIAL"><code class="docutils literal notranslate"><span class="pre">Components.LV_EPICARDIAL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.MITRAL_VALVE"><code class="docutils literal notranslate"><span class="pre">Components.MITRAL_VALVE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.MITRAL_VALVE_CUT"><code class="docutils literal notranslate"><span class="pre">Components.MITRAL_VALVE_CUT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.PULMONARY_VALVE"><code class="docutils literal notranslate"><span class="pre">Components.PULMONARY_VALVE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.PULMONARY_VALVE_CUT"><code class="docutils literal notranslate"><span class="pre">Components.PULMONARY_VALVE_CUT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.RV_EPICARDIAL"><code class="docutils literal notranslate"><span class="pre">Components.RV_EPICARDIAL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.RV_FREEWALL"><code class="docutils literal notranslate"><span class="pre">Components.RV_FREEWALL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.RV_SEPTUM"><code class="docutils literal notranslate"><span class="pre">Components.RV_SEPTUM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.TRICUSPID_VALVE"><code class="docutils literal notranslate"><span class="pre">Components.TRICUSPID_VALVE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.TRICUSPID_VALVE_CUT"><code class="docutils literal notranslate"><span class="pre">Components.TRICUSPID_VALVE_CUT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#biv_lite.biv_mesh.Components.THRU_WALL"><code class="docutils literal notranslate"><span class="pre">Components.THRU_WALL</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="biv_frames.html">BivFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_parametric.html">BivParametric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="biv_motion_ui.html">BivMotionUI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite">GitHub Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/avansp/biv-lite/issues">Issue Tracker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">biv-lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BivMesh</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/biv_mesh.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bivmesh">
+<h1>BivMesh<a class="headerlink" href="#bivmesh" title="Link to this heading"></a></h1>
+<p>Biventricular mesh class for cardiac modeling.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biv_lite.biv_mesh.</span></span><span class="sig-name descname"><span class="pre">BivMesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'biv_mesh'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/biv-lite/biv-lite/src/biv_lite/model')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="generated/biv_lite.meshing.mesh.html#biv_lite.meshing.mesh.Mesh" title="biv_lite.meshing.mesh.Mesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mesh</span></code></a></p>
+<p>Handle biventricular cardiac mesh models.</p>
+<p>This class extends the Mesh base class to facilitate the construction,
+manipulation, and analysis of biventricular meshes. It provides utilities
+to load fitted models, manipulate control points, and extract specific
+components (LV/RV endocardial and epicardial surfaces), with support for
+template models, subdivision matrices, and component re-indexing.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.DEFAULT_MODEL_FOLDER">
+<span class="sig-name descname"><span class="pre">DEFAULT_MODEL_FOLDER</span></span><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.DEFAULT_MODEL_FOLDER" title="Link to this definition"></a></dt>
+<dd><p>Default folder path for model templates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.control_points">
+<span class="sig-name descname"><span class="pre">control_points</span></span><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.control_points" title="Link to this definition"></a></dt>
+<dd><p>Control points defining the biventricular model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.model_folder">
+<span class="sig-name descname"><span class="pre">model_folder</span></span><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.model_folder" title="Link to this definition"></a></dt>
+<dd><p>Path to the template model folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.subdiv_matrix">
+<span class="sig-name descname"><span class="pre">subdiv_matrix</span></span><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.subdiv_matrix" title="Link to this definition"></a></dt>
+<dd><p>Precomputed subdivision matrix for mesh generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.ls_points">
+<span class="sig-name descname"><span class="pre">ls_points</span></span><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.ls_points" title="Link to this definition"></a></dt>
+<dd><p>Longitudinal strain point indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.cs_points">
+<span class="sig-name descname"><span class="pre">cs_points</span></span><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.cs_points" title="Link to this definition"></a></dt>
+<dd><p>Circumferential strain point indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">DEFAULT_MODEL_FOLDER</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/runner/work/biv-lite/biv-lite/src/biv_lite/model')</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'biv_mesh'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/biv-lite/biv-lite/src/biv_lite/model')</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a biventricular mesh model.</p>
+<p>Creates a BivMesh instance using control points and loads necessary data
+from a template model folder to construct vertices, elements, and materials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control_points</strong> – Array of control points (Nx3) for the biventricular model.</p></li>
+<li><p><strong>name</strong> – Name assigned to the mesh. Defaults to “biv_mesh”.</p></li>
+<li><p><strong>model_folder</strong> – Path to folder containing template model data.
+Defaults to DEFAULT_MODEL_FOLDER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If model_folder does not exist.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.is_empty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Check if the mesh is empty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the mesh contains no control points, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.load_template_model">
+<span class="sig-name descname"><span class="pre">load_template_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.load_template_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.load_template_model" title="Link to this definition"></a></dt>
+<dd><p>Load template model files from the specified folder.</p>
+<p>Reads mesh data including subdivision matrix, elements, and material
+information from model files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model_folder</strong> – Path to folder containing template model files.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>subdivision_matrix (ndarray): Subdivision matrix (sparse).</p></li>
+<li><p>vertices (ndarray): Mesh vertices/nodes.</p></li>
+<li><p>elements (ndarray): Triangle element connectivity.</p></li>
+<li><p>materials (ndarray): Material identifiers for elements.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple containing</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – If required model files are not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.from_fitted_model">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_fitted_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="generated/biv_lite.biv_mesh.html#biv_lite.biv_mesh.BivMesh" title="biv_lite.biv_mesh.BivMesh"><span class="pre">BivMesh</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.from_fitted_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.from_fitted_model" title="Link to this definition"></a></dt>
+<dd><p>Create a BivMesh from a fitted model file.</p>
+<p>Loads control points from a comma-separated file (3 columns: x, y, z)
+and initializes a BivMesh object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_file</strong> – Path to the fitted model file (see example in tests/fitted_model.txt).</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments passed to BivMesh constructor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new BivMesh instance initialized with loaded control points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.to_fitted_model">
+<span class="sig-name descname"><span class="pre">to_fitted_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.to_fitted_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.to_fitted_model" title="Link to this definition"></a></dt>
+<dd><p>Write model control points to a fitted model file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_file</strong> – Output file path for the fitted model.</p></li>
+<li><p><strong>frame_num</strong> – Frame number to write in the output file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.lv_endo">
+<span class="sig-name descname"><span class="pre">lv_endo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">open_valve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="generated/biv_lite.meshing.mesh.html#biv_lite.meshing.mesh.Mesh" title="biv_lite.meshing.mesh.Mesh"><span class="pre">Mesh</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.lv_endo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.lv_endo" title="Link to this definition"></a></dt>
+<dd><p>Get left ventricular endocardial mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>open_valve</strong> – If True, exclude aortic and mitral valves.
+Defaults to True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mesh object representing the LV endocardium.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.rv_endo">
+<span class="sig-name descname"><span class="pre">rv_endo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">open_valve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="generated/biv_lite.meshing.mesh.html#biv_lite.meshing.mesh.Mesh" title="biv_lite.meshing.mesh.Mesh"><span class="pre">Mesh</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.rv_endo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.rv_endo" title="Link to this definition"></a></dt>
+<dd><p>Get right ventricular endocardial mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>open_valve</strong> – If True, exclude pulmonary and tricuspid valves.
+Defaults to True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mesh object representing the RV endocardium.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.rvlv_epi">
+<span class="sig-name descname"><span class="pre">rvlv_epi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">open_valve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="generated/biv_lite.meshing.mesh.html#biv_lite.meshing.mesh.Mesh" title="biv_lite.meshing.mesh.Mesh"><span class="pre">Mesh</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.rvlv_epi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.rvlv_epi" title="Link to this definition"></a></dt>
+<dd><p>Get epicardial mesh for both ventricles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>open_valve</strong> – If True, exclude valve structures. If False, include
+aortic, mitral, pulmonary, and tricuspid valves with cuts.
+Defaults to True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mesh object representing RV and LV epicardial surfaces.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.lv_epi">
+<span class="sig-name descname"><span class="pre">lv_epi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">open_valve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="generated/biv_lite.meshing.mesh.html#biv_lite.meshing.mesh.Mesh" title="biv_lite.meshing.mesh.Mesh"><span class="pre">Mesh</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.lv_epi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.lv_epi" title="Link to this definition"></a></dt>
+<dd><p>Get left ventricular epicardial mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>open_valve</strong> – If True, exclude aortic and mitral valves with cuts.
+Defaults to True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mesh object representing LV epicardium.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.rv_epi">
+<span class="sig-name descname"><span class="pre">rv_epi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">open_valve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="generated/biv_lite.meshing.mesh.html#biv_lite.meshing.mesh.Mesh" title="biv_lite.meshing.mesh.Mesh"><span class="pre">Mesh</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.rv_epi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.rv_epi" title="Link to this definition"></a></dt>
+<dd><p>Get right ventricular epicardial mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>open_valve</strong> – If True, exclude pulmonary and tricuspid valves with cuts.
+Defaults to True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mesh object representing RV epicardium.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.lv_endo_volume">
+<span class="sig-name descname"><span class="pre">lv_endo_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.lv_endo_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.lv_endo_volume" title="Link to this definition"></a></dt>
+<dd><p>Calculate left ventricular endocardial volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LV endocardial volume in ml. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.rv_endo_volume">
+<span class="sig-name descname"><span class="pre">rv_endo_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.rv_endo_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.rv_endo_volume" title="Link to this definition"></a></dt>
+<dd><p>Calculate right ventricular endocardial volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RV endocardial volume in ml. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.lv_epi_volume">
+<span class="sig-name descname"><span class="pre">lv_epi_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.lv_epi_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.lv_epi_volume" title="Link to this definition"></a></dt>
+<dd><p>Calculate left ventricular epicardial volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LV epicardial volume in ml. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.rv_epi_volume">
+<span class="sig-name descname"><span class="pre">rv_epi_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.rv_epi_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.rv_epi_volume" title="Link to this definition"></a></dt>
+<dd><p>Calculate right ventricular epicardial volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RV epicardial volume in ml. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.lv_mass">
+<span class="sig-name descname"><span class="pre">lv_mass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.lv_mass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.lv_mass" title="Link to this definition"></a></dt>
+<dd><p>Calculate left ventricular mass.</p>
+<p>Mass is computed as (epicardial_volume - endocardial_volume) * mass_index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mass_index</strong> – Scaling factor for mass calculation. Defaults to 1.05 g/ml.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>LV mass in grams. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.rv_mass">
+<span class="sig-name descname"><span class="pre">rv_mass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.rv_mass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.rv_mass" title="Link to this definition"></a></dt>
+<dd><p>Calculate right ventricular mass.</p>
+<p>Mass is computed as (epicardial_volume - endocardial_volume) * mass_index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mass_index</strong> – Scaling factor for mass calculation. Defaults to 1.05 g/ml.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>RV mass in grams. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.long_arc_length">
+<span class="sig-name descname"><span class="pre">long_arc_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.long_arc_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.long_arc_length" title="Link to this definition"></a></dt>
+<dd><p>Compute longitudinal arc length along a surface.</p>
+<p>Used for computing longitudinal strain in BivFrames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>view</strong> – Either ‘2CH’ (two-chamber) or ‘4CH’ (four-chamber).</p></li>
+<li><p><strong>surface</strong> – Either ‘LV’ (left ventricle), ‘RVS’ (RV septum),
+or ‘RVFW’ (RV freewall).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Longitudinal arc length in mm. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.circ_arc_length">
+<span class="sig-name descname"><span class="pre">circ_arc_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.circ_arc_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.circ_arc_length" title="Link to this definition"></a></dt>
+<dd><p>Compute circumferential arc length along a surface.</p>
+<p>Used for computing circumferential strain in BivFrames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>slice</strong> – Either ‘APEX’, ‘MID’ (mid-ventricular), or ‘BASE’.</p></li>
+<li><p><strong>surface</strong> – Either ‘LV’ (left ventricle), ‘RVS’ (RV septum),
+or ‘RVFW’ (RV freewall).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Circumferential arc length in mm. Returns NaN if mesh is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.BivMesh.to_obj">
+<span class="sig-name descname"><span class="pre">to_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.14)"><span class="pre">IntEnum</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#BivMesh.to_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.BivMesh.to_obj" title="Link to this definition"></a></dt>
+<dd><p>Export the BiVMesh object to a Wavefront OBJ file format.
+This method writes the mesh geometry and material assignments to a .obj file,
+organizing faces by component/material groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_filename</strong> (<em>Path</em>) – Path to the output OBJ file.</p></li>
+<li><p><strong>components</strong> (<em>List</em><em>[</em><em>IntEnum</em><em>]</em><em>, </em><em>optional</em>) – List of component enums to include in the export.
+If None, all available components are included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.14)"><strong>IOError</strong></a> – If the output file cannot be written.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Vertex indices are automatically converted to 1-based indexing as required
+by the OBJ format specification.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Components with no associated faces are skipped in the output.</p>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span> <span class="o">=</span> <span class="n">BiVMesh</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="s2">&quot;biv.obj&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="s2">&quot;rvlv.obj&quot;</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">Components</span><span class="o">.</span><span class="n">LV_ENDOCARDIAL</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_FREEWALL</span><span class="p">,</span> <span class="n">Components</span><span class="o">.</span><span class="n">RV_SEPTUM</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">biv_lite.biv_mesh.</span></span><span class="sig-name descname"><span class="pre">Components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/biv_lite/biv_mesh.html#Components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biv_lite.biv_mesh.Components" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.AORTA_VALVE">
+<span class="sig-name descname"><span class="pre">AORTA_VALVE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.AORTA_VALVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.AORTA_VALVE_CUT">
+<span class="sig-name descname"><span class="pre">AORTA_VALVE_CUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.AORTA_VALVE_CUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.LV_ENDOCARDIAL">
+<span class="sig-name descname"><span class="pre">LV_ENDOCARDIAL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.LV_ENDOCARDIAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.LV_EPICARDIAL">
+<span class="sig-name descname"><span class="pre">LV_EPICARDIAL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.LV_EPICARDIAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.MITRAL_VALVE">
+<span class="sig-name descname"><span class="pre">MITRAL_VALVE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.MITRAL_VALVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.MITRAL_VALVE_CUT">
+<span class="sig-name descname"><span class="pre">MITRAL_VALVE_CUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.MITRAL_VALVE_CUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.PULMONARY_VALVE">
+<span class="sig-name descname"><span class="pre">PULMONARY_VALVE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.PULMONARY_VALVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.PULMONARY_VALVE_CUT">
+<span class="sig-name descname"><span class="pre">PULMONARY_VALVE_CUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.PULMONARY_VALVE_CUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.RV_EPICARDIAL">
+<span class="sig-name descname"><span class="pre">RV_EPICARDIAL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.RV_EPICARDIAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.RV_FREEWALL">
+<span class="sig-name descname"><span class="pre">RV_FREEWALL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.RV_FREEWALL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.RV_SEPTUM">
+<span class="sig-name descname"><span class="pre">RV_SEPTUM</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.RV_SEPTUM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.TRICUSPID_VALVE">
+<span class="sig-name descname"><span class="pre">TRICUSPID_VALVE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.TRICUSPID_VALVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.TRICUSPID_VALVE_CUT">
+<span class="sig-name descname"><span class="pre">TRICUSPID_VALVE_CUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.TRICUSPID_VALVE_CUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="biv_lite.biv_mesh.Components.THRU_WALL">
+<span class="sig-name descname"><span class="pre">THRU_WALL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">13</span></span><a class="headerlink" href="#biv_lite.biv_mesh.Components.THRU_WALL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="generated/biv_lite.meshing.vis.html" class="btn btn-neutral float-left" title="biv_lite.meshing.vis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="biv_frames.html" class="btn btn-neutral float-right" title="BivFrames" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
