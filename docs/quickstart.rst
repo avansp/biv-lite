@@ -1,10 +1,14 @@
 Quick Start
 ===========
 
+The biventricular model is defined from subdivision processes of 388 control points. 
+This is a fixed parameter that cannot be changed.
+See :download:`fitted_model.txt <../tests/fitted_model.txt>` as an example of a 388 control points model.
+
 Loading a Fitted Model
 ----------------------
 
-The main class is :class:`BivMesh`. Load a fitted model and inspect it::
+The main class is :class:`BivMesh <biv_lite.biv_mesh.BivMesh>`. Load a fitted model and inspect it::
 
     from biv_lite import BivMesh
 
@@ -20,6 +24,22 @@ Output::
       Vertices: (5810, 3), dtype: float64
       Faces: (11920, 3), dtype: int64
       Components: AORTA_VALVE, AORTA_VALVE_CUT, LV_ENDOCARDIAL, ...
+
+
+Visualising
+-----------
+
+::
+
+    from biv_lite plot_biv_mesh
+    import pyvista as pv
+
+    pl = pv.Plotter()
+    plot_biv_mesh(biv, pl)
+    pl.show()
+
+.. image:: /images/plot_biv_mesh.png
+    :scale: 50%
 
 Extracting Mesh Components
 ---------------------------

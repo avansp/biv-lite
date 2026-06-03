@@ -6,7 +6,7 @@ from loguru import logger
 from .spike_detector import mad_lm
 
 
-def impute_biv_frames(biv_in: BivFrames, smoothing: float = 0.0, verbose: bool = False) -> BivFrames:
+def impute_biv_frames(biv_in: BivFrames, smoothing: float = 0.0, verbose: bool = False, k: int = 3) -> BivFrames:
     """Just perform imputation on missing frame.
     
     Note that this will not modify the biv input.
@@ -19,7 +19,7 @@ def impute_biv_frames(biv_in: BivFrames, smoothing: float = 0.0, verbose: bool =
         return biv_out
     
     try:
-        bp = BivParametric(biv_out, smoothing=smoothing)
+        bp = BivParametric(biv_out, smoothing=smoothing, k = k)
 
         # replace biv_1 with imputation
         biv_out = bp(ts)
