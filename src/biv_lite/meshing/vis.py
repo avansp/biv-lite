@@ -44,7 +44,7 @@ def plot_mesh(mesh: BivMesh, pl: pv.Plotter, **kwargs) -> pv.Actor:
     return pl.add_mesh(pv.PolyData(mesh.nodes, to_pyvista_faces(mesh.elements)), **kwargs)
 
 
-def plot_biv_mesh(biv: BivMesh, pl: pv.Plotter, name:str = 'BiV',
+def plot_biv_mesh(biv: BivMesh, pl: pv.Plotter = None, name:str = 'BiV',
                   kwargs_lv: dict = _DEFAULT_LV, kwargs_rv: dict = _DEFAULT_RV, kwargs_epi: dict = _DEFAULT_EPI):
     """Plot a default biventricular model.
 
@@ -63,11 +63,15 @@ def plot_biv_mesh(biv: BivMesh, pl: pv.Plotter, name:str = 'BiV',
     :return: Dictionary of added actors for LV, RV, and EPI surfaces.
     :rtype: dict[str, pv.Actor]
     """
-    return {
-        'LV': plot_mesh(biv.lv_endo(), pl, name="-".join([name, "LV"]), **kwargs_lv),
-        'RV': plot_mesh(biv.rv_endo(), pl, name="-".join([name, "RV"]), **kwargs_rv),
-        'EPI': plot_mesh(biv.rvlv_epi(), pl, name="-".join([name, "EPI"]), **kwargs_epi)
-    }
+    if pl is None:
+        pl = pv.Plotter()
+
+    plot_mesh(biv.lv_endo(), pl, name="-".join([name, "LV"]), **kwargs_lv)
+    plot_mesh(biv.rv_endo(), pl, name="-".join([name, "RV"]), **kwargs_rv)
+    plot_mesh(biv.rvlv_epi(), pl, name="-".join([name, "EPI"]), **kwargs_epi)
+
+    pl.show()
+    
 
 def replace_mesh(actor, biv):
     """Replace the visualized biventricular mesh with a new mesh.
