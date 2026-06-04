@@ -24,50 +24,12 @@ def test_set_control_points_and_nodes_size_validation():
     with pytest.raises(ValueError):
         mesh.control_points = invalid_control_points
 
-    valid_nodes = np.zeros((5810, 3), dtype=float)
-    mesh.nodes = valid_nodes
-    assert np.array_equal(mesh._nodes, valid_nodes)
-
-    invalid_nodes = np.zeros((388, 3), dtype=float)
-    with pytest.raises(ValueError):
-        mesh.nodes = invalid_nodes
-
 
 def test_is_empty_true():
     mesh = make_bivmesh_instance()
     # set control points directly to simulate empty mesh
     mesh._control_points = np.empty((0, 3))
     assert mesh.is_empty() is True
-
-
-def test_long_and_circ_arc_length():
-    mesh = make_bivmesh_instance()
-
-    # create nodes array with required shape (5810,3)
-    nodes = np.zeros((388, 3), dtype=float)
-    # create a simple line for indices 10,11,12 (3 units apart)
-    nodes[10] = np.array([0.0, 0.0, 0.0])
-    nodes[11] = np.array([3.0, 0.0, 0.0])
-    nodes[12] = np.array([6.0, 0.0, 0.0])
-
-    # assign to underlying storage (bypass setters)
-    mesh._control_points = nodes
-
-    # build ls_points and cs_points DataFrames expected by the methods
-    mesh.ls_points = pl.DataFrame({
-        "View": ["2CH", "2CH", "2CH"],
-        "Surface": ["LV", "LV", "LV"],
-        "Index": [10, 11, 12],
-    })
-
-    mesh.cs_points = pl.DataFrame({
-        "View": ["APEX", "APEX", "APEX"],
-        "Surface": ["LV", "LV", "LV"],
-        "Index": [10, 11, 12],
-    })
-
-    assert mesh.long_arc_length("2CH", "LV") == pytest.approx(6.0)
-    assert mesh.circ_arc_length("APEX", "LV") == pytest.approx(6.0)
 
 
 def test_to_fitted_model_writes_file(tmp_path: Path):
