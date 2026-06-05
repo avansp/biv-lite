@@ -21,8 +21,12 @@ def impute_biv_frames(biv_in: BivFrames, smoothing: float = 0.0, verbose: bool =
     try:
         bp = BivParametric(biv_out, smoothing=smoothing, k = k)
 
-        # replace biv_1 with imputation
-        biv_out = bp(ts)
+        # create replacement
+        biv_repl = bp(ts)
+
+        # only replace frames that are imputed
+        for i in empty_frames:
+            biv_out[i].control_points = copy.deepcopy(biv_repl[i].control_points)
 
         if verbose:
             logger.info(f"Imputed {len(empty_frames)} frames.")

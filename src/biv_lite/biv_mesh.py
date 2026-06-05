@@ -80,22 +80,6 @@ class BivMesh(Mesh):
         self.set_elements(elements)
         self.set_materials(materials[:, 0], materials[:, 1])
 
-    @property
-    def control_points(self) -> np.ndarray:
-        """Get the control points defining the biventricular model."""
-        return self._control_points
-
-    @control_points.setter
-    def control_points(self, points: np.ndarray) -> None:
-        """Set the control points and validate their size.
-
-        The control points must be a NumPy ndarray with shape (388, 3).
-        """
-        points = np.asarray(points, dtype=float)
-        if points.ndim != 2 or points.shape != (388, 3):
-            raise ValueError("control_points must be a numpy.ndarray with shape (388, 3)")
-        self._control_points = points
-
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(control_points={self.control_points.shape}, name={self.label})"
 

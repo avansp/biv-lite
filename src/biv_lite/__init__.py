@@ -3,3 +3,4 @@ from .biv_frames import BivFrames
 from .biv_parametric import BivParametric
 from .meshing.biv_motion_ui import BivMotionUI
 from .meshing.vis import plot_biv_mesh
+from .meshing.imputation import impute_biv_frames
