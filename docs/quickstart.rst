@@ -31,7 +31,7 @@ Visualising
 
 ::
 
-    from biv_lite plot_biv_mesh
+    from biv_lite import plot_biv_mesh
     import pyvista as pv
 
     pl = pv.Plotter()
@@ -40,6 +40,15 @@ Visualising
 
 .. image:: /images/plot_biv_mesh.png
     :scale: 50%
+
+.. note:
+    If you are using a Jupyter notebook, you can use the following code to visualize the mesh inline::
+
+    pv.global_theme.trame.server_proxy_enabled = True
+    pv.set_jupyter_backend('trame')
+
+    The first statement enables the server proxy for PyVista, which is required for the trame backend to work for remote viewing. 
+    The second statement sets the backend to trame, which allows for interactive visualization of 3D meshes directly in the notebook.    
 
 Extracting Mesh Components
 ---------------------------
